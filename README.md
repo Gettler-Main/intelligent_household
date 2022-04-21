@@ -132,3 +132,7 @@
 ### 技术点
 
 使用SunnyUI框架搭建界面，令界面更加美观，从而提高用户使用体验
+
+使用VS发布功能将程序打包上传至服务器，令服务端在服务器上运行
+
+[C#控制台程序如何发布到服务器Linux上运行 - 编程 - 中国红客联盟 - Powered by Discuz! (chinesehongker.com)](https://www.chinesehongker.com/portal.php?mod=view&aid=3225)
