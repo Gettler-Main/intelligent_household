@@ -52,7 +52,8 @@ namespace Device
                 //1、创建socket
                 Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 //2、绑定ip和端口
-                String ip = "127.0.10.1";
+                //String ip = "127.0.10.1";
+                String ip = "47.93.12.205";
                 int port = 50000;
                 socket.Connect(new IPEndPoint(IPAddress.Parse(ip), port));
                 Thread thread = new Thread(Receive);
@@ -82,25 +83,29 @@ namespace Device
                 int r = socketSend.Receive(buffer);
                 UILight uil = (UILight)Controls[deviceName + "_uiLight"];
                 uil.State = UILightState.On;
-                while (r != 0)
+                while (true)
                 {
-                    string str = Encoding.UTF8.GetString(buffer, 0, r);
-                    uil.State = UILightState.Blink;
-                    //MessageBox.Show(str);
-                    if (str[0] == '1')
-                        openDevice(deviceName);
-                    else if (str[0] == '0')
-                        closeDevice(deviceName);
-                    else if (str[0] == '2' && str.Length >= 3)
+                    if (r != 0)
                     {
-                        int temp = (str[1] - '0') * 10 + (str[2] - '0');
-                        Controls[deviceName + "_label3"].Text = temp.ToString() + "℃";
+
+                        string str = Encoding.UTF8.GetString(buffer, 0, r);
+                        uil.State = UILightState.Blink;
+                        //MessageBox.Show(str);
+                        if (str[0] == '1')
+                            openDevice(deviceName);
+                        else if (str[0] == '0')
+                            closeDevice(deviceName);
+                        else if (str[0] == '2' && str.Length >= 3)
+                        {
+                            int temp = (str[1] - '0') * 10 + (str[2] - '0');
+                            Controls[deviceName + "_label3"].Text = temp.ToString() + "℃";
+                        }
+                        else if (str == "check")
+                        {
+                            send(socketSend, "Name-" + deviceName);//返回设备名
+                        }
+                        r = socketSend.Receive(buffer);
                     }
-                    else if (str == "check")
-                    {
-                        send(socketSend, "Name-" + deviceName);//返回设备名
-                    }
-                    r = socketSend.Receive(buffer);
                 }
                 uil.State = UILightState.On;
             }

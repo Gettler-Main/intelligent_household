@@ -33,6 +33,9 @@
             this.uiLabel2 = new Sunny.UI.UILabel();
             this.uiLabel1 = new Sunny.UI.UILabel();
             this.uiSwitch1 = new Sunny.UI.UISwitch();
+            this.uiIntegerUpDown1 = new Sunny.UI.UIIntegerUpDown();
+            this.uiLabel4 = new Sunny.UI.UILabel();
+            this.uiLabel5 = new Sunny.UI.UILabel();
             this.SuspendLayout();
             // 
             // uiLabel3
@@ -86,11 +89,50 @@
             this.uiSwitch1.Size = new System.Drawing.Size(102, 51);
             this.uiSwitch1.TabIndex = 5;
             this.uiSwitch1.Text = "uiSwitch1";
+            this.uiSwitch1.ValueChanged += new Sunny.UI.UISwitch.OnValueChanged(this.uiSwitch1_ValueChanged);
+            // 
+            // uiIntegerUpDown1
+            // 
+            this.uiIntegerUpDown1.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.uiIntegerUpDown1.Location = new System.Drawing.Point(126, 227);
+            this.uiIntegerUpDown1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.uiIntegerUpDown1.MinimumSize = new System.Drawing.Size(100, 0);
+            this.uiIntegerUpDown1.Name = "uiIntegerUpDown1";
+            this.uiIntegerUpDown1.ShowText = false;
+            this.uiIntegerUpDown1.Size = new System.Drawing.Size(111, 36);
+            this.uiIntegerUpDown1.TabIndex = 10;
+            this.uiIntegerUpDown1.Text = "uiIntegerUpDown1";
+            this.uiIntegerUpDown1.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+            this.uiIntegerUpDown1.Value = 26;
+            this.uiIntegerUpDown1.ValueChanged += new Sunny.UI.UIIntegerUpDown.OnValueChanged(this.uiIntegerUpDown1_ValueChanged);
+            // 
+            // uiLabel4
+            // 
+            this.uiLabel4.Font = new System.Drawing.Font("微软雅黑", 16F);
+            this.uiLabel4.Location = new System.Drawing.Point(45, 223);
+            this.uiLabel4.Name = "uiLabel4";
+            this.uiLabel4.Size = new System.Drawing.Size(74, 44);
+            this.uiLabel4.TabIndex = 11;
+            this.uiLabel4.Text = "温度";
+            this.uiLabel4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // uiLabel5
+            // 
+            this.uiLabel5.Font = new System.Drawing.Font("微软雅黑", 16F);
+            this.uiLabel5.Location = new System.Drawing.Point(244, 227);
+            this.uiLabel5.Name = "uiLabel5";
+            this.uiLabel5.Size = new System.Drawing.Size(66, 36);
+            this.uiLabel5.TabIndex = 12;
+            this.uiLabel5.Text = "℃";
+            this.uiLabel5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // AirConditioner
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.uiLabel5);
+            this.Controls.Add(this.uiLabel4);
+            this.Controls.Add(this.uiIntegerUpDown1);
             this.Controls.Add(this.uiLabel3);
             this.Controls.Add(this.uiLight1);
             this.Controls.Add(this.uiLabel2);
@@ -109,5 +151,8 @@
         private Sunny.UI.UILabel uiLabel2;
         private Sunny.UI.UILabel uiLabel1;
         private Sunny.UI.UISwitch uiSwitch1;
+        private Sunny.UI.UIIntegerUpDown uiIntegerUpDown1;
+        private Sunny.UI.UILabel uiLabel4;
+        private Sunny.UI.UILabel uiLabel5;
     }
 }
