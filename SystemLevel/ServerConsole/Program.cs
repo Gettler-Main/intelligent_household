@@ -167,7 +167,8 @@ namespace ServerConsole
                 //1、创建socket
                 Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 //2、绑定ip和端口
-                String ip = "0.0.0.0";
+                //String ip = "0.0.0.0";
+                String ip = "127.0.0.1";
                 int port = 50000;
                 socket.Bind(new IPEndPoint(IPAddress.Parse(ip), port));
                 //3、开启监听

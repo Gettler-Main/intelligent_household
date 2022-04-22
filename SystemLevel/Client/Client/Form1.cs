@@ -23,7 +23,7 @@ namespace Client
         }
 
 
-        public Socket scoketClient;
+        public static Socket scoketClient;
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -33,25 +33,31 @@ namespace Client
             bedroomLight.Dock = DockStyle.Fill;
             KitchenLight kitchenLight = new KitchenLight();
             kitchenLight.Dock = DockStyle.Fill;
+            AirConditioner airConditioner = new AirConditioner();
+            airConditioner.Dock = DockStyle.Fill;
             tabPage1.Controls.Add(bedroomLight);
             tabPage2.Controls.Add(kitchenLight);
+            tabPage4.Controls.Add(airConditioner);
             uiTabControlMenu1.SizeMode = TabSizeMode.Normal;
 
             try
             {
 
                 //1、创建socket
-                Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                scoketClient = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 //2、绑定ip和端口
-                String ip = "127.0.10.1";
+                //String ip = "127.0.10.1";
+                String ip = "47.93.12.205";
                 int port = 50000;
-                socket.Connect(new IPEndPoint(IPAddress.Parse(ip), port));
+                scoketClient.Connect(new IPEndPoint(IPAddress.Parse(ip), port));
                 Thread thread = new Thread(Receive);
                 thread.IsBackground = true;
-                thread.Start(socket);
+                thread.Start(scoketClient);
             }
-            catch { }
-
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         public void Receive(object o)
@@ -75,9 +81,9 @@ namespace Client
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-
+                MessageBox.Show(ex.ToString());
             }
 
         }
