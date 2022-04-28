@@ -168,3 +168,6 @@
 点击第一个搜索结果后右侧选择安装即可
 
 ![image-20220428120249382](https://gettler-images.oss-cn-beijing.aliyuncs.com/images/image-20220428120249382.png)
+
+完成上述操作后关闭报错页面，重新生成解决方案再打开就好啦
+
