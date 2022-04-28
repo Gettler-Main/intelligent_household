@@ -136,3 +136,35 @@
 使用VS发布功能将程序打包上传至服务器，令服务端在服务器上运行
 
 [C#控制台程序如何发布到服务器Linux上运行 - 编程 - 中国红客联盟 - Powered by Discuz! (chinesehongker.com)](https://www.chinesehongker.com/portal.php?mod=view&aid=3225)
+
+
+
+
+
+### 运行报错处理方法
+
+
+
+如出现下图错误
+
+![image-202204128115710199](https://gettler-images.oss-cn-beijing.aliyuncs.com/images/image-20220428115710199.png)
+
+
+
+导入SunnyUI包即可
+
+右键项目，点击管理NuGet程序包
+
+![image-20220428115910776](https://gettler-images.oss-cn-beijing.aliyuncs.com/images/image-20220428115910776.png)
+
+
+
+点击`浏览`选项卡
+
+![image-201220428120016127](https://gettler-images.oss-cn-beijing.aliyuncs.com/images/image-20220428120016127.png)
+
+在搜索框中输入sunnyui
+
+点击第一个搜索结果后右侧选择安装即可
+
+![image-20220428120249382](https://gettler-images.oss-cn-beijing.aliyuncs.com/images/image-20220428120249382.png)
