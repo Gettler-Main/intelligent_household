@@ -35,7 +35,14 @@ namespace Client
             kitchenLight.Dock = DockStyle.Fill;
             AirConditioner airConditioner = new AirConditioner();
             airConditioner.Dock = DockStyle.Fill;
+            Strip strip = new Strip();
+            strip.Dock = DockStyle.Fill;
+            LivingLight livingLight = new LivingLight();
+            livingLight.Dock = DockStyle.Fill;
             tabPage1.Controls.Add(bedroomLight);
+            Logs logs = new Logs();
+            logs.Dock = DockStyle.Fill;
+            tabLogs.Controls.Add(logs);
             tabPage2.Controls.Add(kitchenLight);
             tabPage4.Controls.Add(airConditioner);
             uiTabControlMenu1.SizeMode = TabSizeMode.Normal;

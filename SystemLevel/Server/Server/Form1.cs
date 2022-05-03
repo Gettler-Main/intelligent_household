@@ -133,7 +133,12 @@ namespace Server
                 {
                     if (r != 0)
                     {
+
                         string str = Encoding.UTF8.GetString(buffer, 0, r);
+                        showMsg(str);
+
+
+
                         if (str.Substring(0, 5) == "Name-") // 传回的是身份信息
                         {
                             string name = str.Substring(5);

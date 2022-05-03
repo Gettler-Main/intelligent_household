@@ -10,16 +10,11 @@ using System.Windows.Forms;
 
 namespace Client.Control
 {
-    public partial class KitchenLight : UserControl
+    public partial class Logs : UserControl
     {
-        public KitchenLight()
+        public Logs()
         {
             InitializeComponent();
-        }
-
-        private void uiSwitch1_ValueChanged(object sender, bool value)
-        {
-
         }
     }
 }

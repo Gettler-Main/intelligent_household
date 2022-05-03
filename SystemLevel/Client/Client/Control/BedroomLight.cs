@@ -23,10 +23,11 @@ namespace Client.Control
 
         private void uiSwitch1_ValueChanged(object sender, bool value)
         {
-            if (value)
-            {
-
-            }
+            Form1 f = new Form1();
+            int t = -1;
+            if (value) t = 1;
+            else t = 0;
+            f.send(Form1.scoketClient, "BedroomLight:OP" + t.ToString());
         }
 
         private void uiLight1_Click(object sender, EventArgs e)

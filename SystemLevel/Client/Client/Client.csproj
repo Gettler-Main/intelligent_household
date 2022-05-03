@@ -96,6 +96,12 @@
     <Compile Include="Control\LivingLight.Designer.cs">
       <DependentUpon>LivingLight.cs</DependentUpon>
     </Compile>
+    <Compile Include="Control\Logs.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Control\Logs.Designer.cs">
+      <DependentUpon>Logs.cs</DependentUpon>
+    </Compile>
     <Compile Include="Control\Strip.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -130,6 +136,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Control\LivingLight.resx">
       <DependentUpon>LivingLight.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Control\Logs.resx">
+      <DependentUpon>Logs.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Control\Strip.resx">
       <DependentUpon>Strip.cs</DependentUpon>

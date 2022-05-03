@@ -86,6 +86,7 @@
             this.uiSwitch1.Size = new System.Drawing.Size(102, 51);
             this.uiSwitch1.TabIndex = 10;
             this.uiSwitch1.Text = "uiSwitch1";
+            this.uiSwitch1.ValueChanged += new Sunny.UI.UISwitch.OnValueChanged(this.uiSwitch1_ValueChanged);
             // 
             // LivingLight
             // 
