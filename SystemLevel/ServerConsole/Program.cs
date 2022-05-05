@@ -17,7 +17,7 @@ namespace ServerConsole
 
         public static Dictionary<string, Socket> sockets = new Dictionary<string, Socket>();
         public static Dictionary<Socket, string> socketNames = new Dictionary<Socket, string>();
-
+        public static string logs = "Logs：";
 
         /// <summary>
         /// 等待客户端的链接，并创建与其通信的Socket
@@ -45,7 +45,34 @@ namespace ServerConsole
 
         }
 
+        /// <summary>
+        /// 打包服务器数据
+        /// </summary>
+        /// <param name="message">数据</param>
+        /// <returns>数据包</returns>
+        private static byte[] PackData(string message)
+        {
+            byte[] contentBytes = null;
+            byte[] temp = Encoding.UTF8.GetBytes(message);
 
+            if (temp.Length < 126)
+            {
+                contentBytes = new byte[temp.Length + 2];
+                contentBytes[0] = 0x81;
+                contentBytes[1] = (byte)temp.Length;
+                Array.Copy(temp, 0, contentBytes, 2, temp.Length);
+            }
+            //else if (temp.Length < 0xFFFF)
+            //{
+            //contentBytes = new byte[temp.Length + 4];
+            //contentBytes[0] = 0x81;
+            //contentBytes[1] = 126;
+            //contentBytes[2] = (byte)(temp.Length & 0xFF);
+            //contentBytes[3] = (byte)(temp.Length >> 8 & 0xFF);
+            //Array.Copy(temp, 0, contentBytes, 4, temp.Length);
+            //}
+            return contentBytes;
+        }
         private static void send(Socket socket, string msg)
         {
             //构造字节数组
@@ -58,6 +85,36 @@ namespace ServerConsole
             byteNum = System.Text.Encoding.UTF8.GetBytes(msg.ToCharArray());
             //发送数据
             socket.Send(byteNum, byteNum.Length, 0);
+        }
+
+        private static void PackeSend(Socket socket, string msg)
+        {
+
+            byte[] contentBytes = null;
+            byte[] temp = Encoding.UTF8.GetBytes(msg);
+            Console.WriteLine(msg);
+            if (temp.Length < 126)
+            {
+                contentBytes = new byte[temp.Length + 2];
+                contentBytes[0] = 0x81;
+                contentBytes[1] = (byte)temp.Length;
+                Array.Copy(temp, 0, contentBytes, 2, temp.Length);
+            }
+            else if (temp.Length < 0xFFFF)
+            {
+                contentBytes = new byte[temp.Length + 4];
+                contentBytes[0] = 0x81;
+                contentBytes[1] = 126;
+                contentBytes[2] = (byte)(temp.Length & 0xFF);
+                contentBytes[3] = (byte)(temp.Length >> 8 & 0xFF);
+                Array.Copy(temp, 0, contentBytes, 4, temp.Length);
+            }
+            //构造字节数组
+            //发送内容
+            //将字符串转换为字节数组
+            Console.WriteLine(msg);
+            //发送数据
+            socket.Send(contentBytes, contentBytes.Length, 0);
         }
 
 
@@ -90,25 +147,26 @@ namespace ServerConsole
         {
             Socket socketSend = o as Socket;
             IPEndPoint clientipe = (IPEndPoint)socketSend.RemoteEndPoint;
-            if (clientipe.Address.ToString() == "127.0.0.1")
+            if (clientipe.Address.ToString() == "127.0.0.1") // 网页端发来的WebSocket
             {
-                Console.WriteLine("客户端连接成功！");
+                //Console.WriteLine("客户端连接成功！");
                 var key = string.Format("{0}-X-Q-X-{1}", clientipe.Address.ToString(), clientipe.Port);
-                string name = "Client";
-                if (socketNames.ContainsKey(socketSend))
-                    socketNames.Remove(socketSend);
-                if (sockets.ContainsKey(name))
-                    sockets.Remove(name);
-                sockets.Add(name, socketSend);
-                socketNames.Add(socketSend, name);
-                Console.WriteLine(name + "已连接");
+                //string name = "Client";
+                //if (socketNames.ContainsKey(socketSend))
+                //    socketNames.Remove(socketSend);
+                //if (sockets.ContainsKey(name))
+                //    sockets.Remove(name);
+                //sockets.Add(name, socketSend);
+                //socketNames.Add(socketSend, name);
+                //Console.WriteLine(name + "已连接");
                 byte[] buffer = new byte[1024];
                 int length = socketSend.Receive(buffer);
                 socketSend.Send(PackHandShakeData(GetSecKeyAccetp(buffer, length)));
                 Console.WriteLine("已经发送握手协议了");
+                logs += "服务端发送握手协议...\n";
+                //logs += name + "已连接\n";
                 try
                 {
-
                     while (true)
                     {
                         //接受客户端数据
@@ -118,14 +176,26 @@ namespace ServerConsole
                             if (length != 0)
                             {
                                 string clientMsg = AnalyticData(buffer, length);
-                                //发送数据
                                 string str = "" + clientMsg;
-
+                                if (str.Substring(0, 5) == "Name-") // 传回的是身份信息
+                                {
+                                    string name = str.Substring(5);
+                                    // 存储身份信息（设备名）
+                                    if (socketNames.ContainsKey(socketSend))
+                                        socketNames.Remove(socketSend);
+                                    if (sockets.ContainsKey(name))
+                                        sockets.Remove(name);
+                                    sockets.Add(name, socketSend);
+                                    socketNames.Add(socketSend, name);
+                                    Console.WriteLine(name + "已连接");
+                                    logs += name + "已连接\n";
+                                }
                                 int t = str.IndexOf(':'); // 传输信息格式为 AirCondition:OP225
                                 if (t != -1)
                                 {
                                     string tar = str.Substring(0, t);
                                     Console.WriteLine(socketNames[socketSend] + " to " + tar + " : " + str.Substring(t + 1));
+                                    logs += socketNames[socketSend] + " to " + tar + " : " + str.Substring(t + 1) + "\n";
                                     if (str.Length >= t + 4 && str.Substring(t + 1, 2) == "OP") // OP标注是否对设备端操作
                                     {
                                         string op = "";
@@ -137,15 +207,18 @@ namespace ServerConsole
                                         // 向设备端发送命令
                                         send(sockets[tar], op);
                                     }
+
+                                }
+                                else if (str.Length >= 7 && str.Substring(0, 7) == "getLogs")
+                                {
+                                    logs += socketNames[socketSend] + " : want to get logs\n";
+                                    PackeSend(sockets["Client"], logs);
                                 }
                             }
                         }
                         catch (Exception e)
                         {
-
                         }
-
-
                     }
                 }
                 catch (Exception e)
@@ -153,57 +226,67 @@ namespace ServerConsole
                 }
 
             }
-            try
+            else // C#客户端发来的Socket
             {
-                Console.WriteLine(socketSend.RemoteEndPoint.ToString() + ":连接成功！");
-                Byte[] byteNum = new Byte[64];
-                byteNum = System.Text.Encoding.UTF8.GetBytes("check".ToCharArray());
-                socketSend.Send(byteNum, byteNum.Length, 0);
-                byte[] buffer = new byte[1024 * 1024 * 2];
-                int r = socketSend.Receive(buffer);
-                while (true)
+                try
                 {
-                    if (r != 0)
+                    //Console.WriteLine(socketSend.RemoteEndPoint.ToString() + ":连接成功！");
+                    Byte[] byteNum = new Byte[64];
+                    byteNum = System.Text.Encoding.UTF8.GetBytes("check".ToCharArray());
+                    socketSend.Send(byteNum, byteNum.Length, 0);
+                    byte[] buffer = new byte[1024 * 1024 * 2];
+                    int r = socketSend.Receive(buffer);
+                    while (true)
                     {
-                        string str = Encoding.UTF8.GetString(buffer, 0, r);
-                        if (str.Substring(0, 5) == "Name-") // 传回的是身份信息
+                        if (r != 0)
                         {
-                            string name = str.Substring(5);
-                            // 存储身份信息（设备名）
-                            if (socketNames.ContainsKey(socketSend))
-                                socketNames.Remove(socketSend);
-                            if (sockets.ContainsKey(name))
-                                sockets.Remove(name);
-                            sockets.Add(name, socketSend);
-                            socketNames.Add(socketSend, name);
-                            Console.WriteLine(name + "已连接");
-                        }
-                        int t = str.IndexOf(':'); // 传输信息格式为 AirCondition:OP225
-                        if (t != -1)
-                        {
-                            string tar = str.Substring(0, t);
-                            Console.WriteLine(socketNames[socketSend] + " to " + tar + " : " + str.Substring(t + 1));
-                            if (str.Length >= t + 4 && str.Substring(t + 1, 2) == "OP") // OP标注是否对设备端操作
+                            string str = Encoding.UTF8.GetString(buffer, 0, r);
+                            if (str.Substring(0, 5) == "Name-") // 传回的是身份信息
                             {
-                                string op = "";
-                                op += str[t + 3];
-                                if (str[t + 3] == '2' && str.Length >= t + 6) // OP后为2表示调整温度
+                                string name = str.Substring(5);
+                                // 存储身份信息（设备名）
+                                if (socketNames.ContainsKey(socketSend))
+                                    socketNames.Remove(socketSend);
+                                if (sockets.ContainsKey(name))
+                                    sockets.Remove(name);
+                                sockets.Add(name, socketSend);
+                                socketNames.Add(socketSend, name);
+                                Console.WriteLine(name + "已连接");
+                                logs += name + "已连接\n";
+                            }
+                            int t = str.IndexOf(':'); // 传输信息格式为 AirCondition:OP225
+                            if (t != -1)
+                            {
+                                string tar = str.Substring(0, t);
+                                Console.WriteLine(socketNames[socketSend] + " to " + tar + " : " + str.Substring(t + 1));
+                                logs += socketNames[socketSend] + " to " + tar + " : " + str.Substring(t + 1) + "\n";
+                                if (str.Length >= t + 4 && str.Substring(t + 1, 2) == "OP") // OP标注是否对设备端操作
                                 {
-                                    op += str.Substring(t + 4, 2);
+                                    string op = "";
+                                    op += str[t + 3];
+                                    if (str[t + 3] == '2' && str.Length >= t + 6) // OP后为2表示调整温度
+                                    {
+                                        op += str.Substring(t + 4, 2);
+                                    }
+                                    // 向设备端发送命令
+                                    send(sockets[tar], op);
                                 }
-                                // 向设备端发送命令
-                                send(sockets[tar], op);
+                            }
+                            else if (str.Length >= 7 && str.Substring(0, 7) == "getLogs")
+                            {
+                                logs += socketNames[socketSend] + " : want to get logs\n";
+                                send(sockets["Client"], logs);
                             }
                         }
+                        r = socketSend.Receive(buffer);
                     }
-                    r = socketSend.Receive(buffer);
                 }
-            }
-            catch
-            {
+                catch
+                {
+
+                }
 
             }
-
         }
 
 
@@ -219,9 +302,6 @@ namespace ServerConsole
             responseBuilder.Append("Upgrade: websocket" + Environment.NewLine);
             responseBuilder.Append("Connection: Upgrade" + Environment.NewLine);
             responseBuilder.Append("Sec-WebSocket-Accept: " + secKeyAccept + Environment.NewLine + Environment.NewLine);
-            //如果把上一行换成下面两行，才是thewebsocketprotocol-17协议，但居然握手不成功，目前仍没弄明白！
-            //responseBuilder.Append("Sec-WebSocket-Accept: " + secKeyAccept + Environment.NewLine);
-            //responseBuilder.Append("Sec-WebSocket-Protocol: chat" + Environment.NewLine);
 
             return Encoding.UTF8.GetBytes(responseBuilder.ToString());
         }
@@ -334,6 +414,9 @@ namespace ServerConsole
         }
 
 
+
+
+
         static void Main(string[] args)
         {
             try
@@ -352,7 +435,6 @@ namespace ServerConsole
                 thread.IsBackground = true;
                 thread.Start(socket);
                 Console.WriteLine("服务器正常启动，0.0.0.0:50000 开始接受客户端的数据");
-
             }
             catch (Exception ex)
             {
