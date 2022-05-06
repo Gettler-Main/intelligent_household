@@ -137,6 +137,8 @@
 
 [C#控制台程序如何发布到服务器Linux上运行 - 编程 - 中国红客联盟 - Powered by Discuz! (chinesehongker.com)](https://www.chinesehongker.com/portal.php?mod=view&aid=3225)
 
+编写合包函数和数据包解析函数，令C#的Socket可以与实现WebSocket通信
+
 [WebSocket合包函数，发送大于126字节和大于65535字节的处理](https://blog.csdn.net/suleil1/article/details/49471719)
 
 
