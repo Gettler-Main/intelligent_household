@@ -56,6 +56,9 @@ namespace Device
                 String ip = "47.93.12.205";
                 int port = 50000;
                 socket.Connect(new IPEndPoint(IPAddress.Parse(ip), port));
+                Byte[] byteNum = new Byte[64];
+                byteNum = System.Text.Encoding.UTF8.GetBytes(("Name-" + deviceName).ToCharArray());
+                socket.Send(byteNum, byteNum.Length, 0);
                 Thread thread = new Thread(Receive);
                 thread.IsBackground = true;
                 thread.Start(socket);

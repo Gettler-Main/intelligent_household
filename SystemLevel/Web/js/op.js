@@ -1,7 +1,8 @@
 
 $(function () {
 
-    var ws = new WebSocket("ws://127.0.0.1:50000")   //建立连接
+    // var ws = new WebSocket("ws://47.93.12.205:50000")   //建立连接
+    var ws = new WebSocket("ws://127.0.10.1:50000")   //建立连接
     ws.onopen = function () {  //发送请求
         console.log("open")
         ws.send("Name-Client")

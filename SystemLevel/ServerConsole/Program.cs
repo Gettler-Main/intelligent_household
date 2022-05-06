@@ -162,20 +162,14 @@ namespace ServerConsole
         {
             Socket socketSend = o as Socket;
             IPEndPoint clientipe = (IPEndPoint)socketSend.RemoteEndPoint;
-            if (clientipe.Address.ToString() == "127.0.0.1") // 网页端发来的WebSocket
+            
+            byte[] buffer = new byte[1024];
+            int length = socketSend.Receive(buffer);
+            string str = Encoding.UTF8.GetString(buffer, 0, length);
+            Console.WriteLine(str);
+            if (str.Contains("WebSocket"))
             {
-                //Console.WriteLine("客户端连接成功！");
-                var key = string.Format("{0}-X-Q-X-{1}", clientipe.Address.ToString(), clientipe.Port);
-                //string name = "Client";
-                //if (socketNames.ContainsKey(socketSend))
-                //    socketNames.Remove(socketSend);
-                //if (sockets.ContainsKey(name))
-                //    sockets.Remove(name);
-                //sockets.Add(name, socketSend);
-                //socketNames.Add(socketSend, name);
-                //Console.WriteLine(name + "已连接");
-                byte[] buffer = new byte[1024];
-                int length = socketSend.Receive(buffer);
+                Console.WriteLine("收到来自网页端的信息");
                 socketSend.Send(PackHandShakeData(GetSecKeyAccetp(buffer, length)));
                 Console.WriteLine("已经发送握手协议了");
                 logs += "服务端发送握手协议...\n";
@@ -191,7 +185,7 @@ namespace ServerConsole
                             if (length != 0)
                             {
                                 string clientMsg = AnalyticData(buffer, length);
-                                string str = "" + clientMsg;
+                                str = "" + clientMsg;
                                 if (str.Substring(0, 5) == "Name-") // 传回的是身份信息
                                 {
                                     string name = str.Substring(5);
@@ -245,17 +239,17 @@ namespace ServerConsole
             {
                 try
                 {
-                    //Console.WriteLine(socketSend.RemoteEndPoint.ToString() + ":连接成功！");
+                    Console.WriteLine(socketSend.RemoteEndPoint.ToString() + ":连接成功！");
                     Byte[] byteNum = new Byte[64];
                     byteNum = System.Text.Encoding.UTF8.GetBytes("check".ToCharArray());
                     socketSend.Send(byteNum, byteNum.Length, 0);
-                    byte[] buffer = new byte[1024 * 1024 * 2];
-                    int r = socketSend.Receive(buffer);
+                    buffer = new byte[1024 * 1024 * 2];
+                    //int r = socketSend.Receive(buffer);
                     while (true)
                     {
-                        if (r != 0)
+                        if (length != 0)
                         {
-                            string str = Encoding.UTF8.GetString(buffer, 0, r);
+                            str = Encoding.UTF8.GetString(buffer, 0, length);
                             if (str.Substring(0, 5) == "Name-") // 传回的是身份信息
                             {
                                 string name = str.Substring(5);
@@ -293,7 +287,7 @@ namespace ServerConsole
                                 send(sockets["Client"], logs);
                             }
                         }
-                        r = socketSend.Receive(buffer);
+                        length = socketSend.Receive(buffer);
                     }
                 }
                 catch
@@ -439,8 +433,8 @@ namespace ServerConsole
                 //1、创建socket
                 Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 //2、绑定ip和端口
-                //String ip = "0.0.0.0";
-                String ip = "127.0.0.1";
+                String ip = "0.0.0.0";
+                //String ip = "127.0.10.1";
                 int port = 50000;
                 socket.Bind(new IPEndPoint(IPAddress.Parse(ip), port));
                 //3、开启监听
