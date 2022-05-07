@@ -35,6 +35,7 @@ class ControlCenterApplicationTests {
         List<User> users = userMapper.selectByExample(userExample);
         if (users.isEmpty()) System.out.println(Result.success("原密码错误"));
 //        userMapper.updateByExample(new User("Gettler", "73748156"), userExample);
-        System.out.println(Result.success(userMapper.updateByExample(new User(users.get(0).getUserid(), "Gettler", "73748156"), userExample)));
+        else
+            System.out.println(Result.success(userMapper.updateByExample(new User(users.get(0).getUserid(), "Gettler", "73748156"), userExample)));
     }
 }

@@ -8,6 +8,7 @@
         <version>2.6.7</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+    <packaging>war</packaging>
     <groupId>com.Gettler</groupId>
     <artifactId>ControlCenter</artifactId>
     <version>0.0.1-SNAPSHOT</version>
