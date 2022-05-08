@@ -11,13 +11,25 @@ import com.gettler.controlcenter.vo.Result;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @SpringBootTest
 class ControlCenterApplicationTests {
 
     @Test
-    void contextLoads() {
+    void contextLoads() throws IOException {
+        Process proc = Runtime.getRuntime().exec("dotnet /home/C#/out/ServerConsole.dll");
+        InputStream in = proc.getInputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
+        String line = null;
+        while((line=br.readLine())!=null){
+            System.out.println(line);
+        }
     }
 
     @Test

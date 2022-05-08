@@ -9,6 +9,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.IO;
 
 namespace ServerConsole
 {
@@ -162,7 +163,7 @@ namespace ServerConsole
         {
             Socket socketSend = o as Socket;
             IPEndPoint clientipe = (IPEndPoint)socketSend.RemoteEndPoint;
-            
+
             byte[] buffer = new byte[1024];
             int length = socketSend.Receive(buffer);
             string str = Encoding.UTF8.GetString(buffer, 0, length);
@@ -422,12 +423,12 @@ namespace ServerConsole
             }
         }
 
-
-
-
-
         static void Main(string[] args)
         {
+            //在using中创建FileStream对象fs，然后执行大括号内的代码段，
+            //执行完后，释放被using的对象fs（后台自动调用了dispose）
+            //byte[] buffer = Encoding.UTF8.GetBytes(s);      //把要写入的东西转换成byte数组
+            //fs.Write(buffer, 0, buffer.Length);          //写入
             try
             {
                 //1、创建socket
@@ -435,15 +436,16 @@ namespace ServerConsole
                 //2、绑定ip和端口
                 String ip = "0.0.0.0";
                 //String ip = "127.0.10.1";
-                int port = 50000;
+                Console.WriteLine("请输入端口号");
+                int port = Convert.ToInt32(Console.ReadLine());
                 socket.Bind(new IPEndPoint(IPAddress.Parse(ip), port));
                 //3、开启监听
                 socket.Listen(20);//等待连接队列的最大值
-                //4、开始接受客户端的链接
+                                  //4、开始接受客户端的链接
                 Thread thread = new Thread(listen);
                 thread.IsBackground = true;
                 thread.Start(socket);
-                Console.WriteLine("服务器正常启动，0.0.0.0:50000 开始接受客户端的数据");
+                Console.WriteLine("服务器正常启动，0.0.0.0:" + port.ToString() + " 开始接受客户端的数据");
             }
             catch (Exception ex)
             {
@@ -453,6 +455,7 @@ namespace ServerConsole
             {
                 Thread.Sleep(1);
             }
+
         }
     }
 }

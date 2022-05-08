@@ -53,7 +53,6 @@ public class UserController {
     }
 
     @GetMapping("update")
-    @SneakyThrows
     @ApiOperation(value = "更新用户信息")
     public Result update(@ApiParam(name = "username", value = "用户名", required = true, example = "Gettler") String username, @ApiParam(name = "password", value = "密码", required = true, example = "73748156") String password, @ApiParam(name = "newUserName", value = "新用户名", required = true, example = "Gettler") String newUserName, @ApiParam(name = "newPassword", value = "新密码", required = true, example = "73748156") String newPassword) {
         UserExample userExample = new UserExample();
@@ -65,13 +64,13 @@ public class UserController {
         return Result.success(userMapper.updateByExample(new User(users.get(0).getUserid(), newUserName, newPassword), userExample));
     }
 
-    @PostMapping("findAll")
+    @GetMapping("findAll")
     @ApiOperation(value = "查找所有用户")
     public Result findAll() {
         return Result.success(userMapper.selectByExample(null));
     }
 
-    @PostMapping("findUserById")
+    @GetMapping("findUserById")
     @ApiOperation(value = "通过Id查找用户")
     public Result findUserById(@ApiParam(name = "id", value = "用户ID", required = true, example = "1") Integer id) {
         return Result.success(userMapper.selectByPrimaryKey(id));
