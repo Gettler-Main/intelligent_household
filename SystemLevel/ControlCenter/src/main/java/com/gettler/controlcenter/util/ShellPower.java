@@ -87,9 +87,7 @@ public class ShellPower {
     }
 
     public static int addPort(Integer num) throws IOException {
-        Process proc = Runtime.getRuntime().exec("echo " +num.toString() +
-                " | dotnet /home/C#/out/ServerConsole.dll > /home/C#/logs/"
-                + num.toString() + ".txt");
+        Process proc = Runtime.getRuntime().exec("echo " + num.toString() + " | dotnet /home/C#/out/ServerConsole.dll > /home/C#/logs/" + num.toString() + ".txt");
         return Integer.parseInt(getProcessId(proc));
     }
 

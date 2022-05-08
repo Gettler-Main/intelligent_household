@@ -115,7 +115,7 @@
 
 ##### 返回设备身份
 
-接收到`check`时返回‘Name-’ + 设备名
+接收到`check`时返回`Name-` + 设备名
 
 
 
@@ -124,6 +124,30 @@
 `sockets` 存储设备名到`socket`的映射
 
 `socketNames` 存储`socket`到设备名的映射
+
+
+
+### 数据库表
+
+#### user 用户表
+
+| **Column** |   **Type**   | **Comment** | **PK** | **Nullable** | **Default** |
+| :--------: | :----------: | :---------: | :----: | :----------: | :---------: |
+|   userid   |     int      |   用户ID    |  YES   |      NO      |             |
+|  username  | varchar(255) |   用户名    |        |      NO      |             |
+|  password  | varchar(255) |    密码     |        |      NO      |             |
+
+#### port 端口表
+
+| **Column** | **Type** | **Comment** | **PK** | **Nullable** | **Default** |
+| :--------: | :------: | :---------: | :----: | :----------: | :---------: |
+|    num     |   int    |   端口号    |        |      NO      |             |
+|   userid   |   int    |   用户ID    |  YES   |      NO      |             |
+|    pid     |   int    |   进程Id    |        |      NO      |             |
+
+
+
+
 
 
 
@@ -141,11 +165,31 @@
 
 [WebSocket合包函数，发送大于126字节和大于65535字节的处理](https://blog.csdn.net/suleil1/article/details/49471719)
 
+后端使用SSM框架对代码快速编写。
+
+利用管道与输出重定向等知识对`shell`脚本进行编写。
+
+开启服务器安全组`50000-51000`端口后在Java后端中使用`net.java.dev.jna`包中的`Runtime`类来执行编写好的`shell`脚本命令，从而开启对应端口的服务器，以此实现了Java后端对端口的管理操作。
+
+![image-20220508172127590](https://gettler-images.oss-cn-beijing.aliyuncs.com/images/image-20220508172127590.png)
+
+```java
+Process proc = Runtime.getRuntime().exec("echo " + num.toString() + " | dotnet /home/C#/out/ServerConsole.dll > /home/C#/logs/" + num.toString() + ".txt");
+```
+
+
+
+
+
+
+
+
+
+
+
 
 
 ### 运行报错处理方法
-
-
 
 如出现下图错误
 
@@ -179,11 +223,15 @@
 
 设备端每五秒发一次，包含设备信息（设备开关状态，温度/亮度级别等），连续15秒未接收到消息即判断掉线
 
-#### 配置页面
-
-端口配置问题，是否要实现多个端口多个设备端？
-
 #### 家具
 
 界面问题
+
+#### 前端界面有待改进
+
+管理员界面
+
+客户端操作界面
+
+
 
