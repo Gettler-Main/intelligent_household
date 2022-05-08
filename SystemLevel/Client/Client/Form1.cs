@@ -105,5 +105,14 @@ namespace Client
             socket.Send(byteNum, byteNum.Length, 0);
         }
 
+        private void tabPage3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabPage4_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

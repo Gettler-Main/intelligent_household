@@ -103,6 +103,7 @@ namespace Client
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "客厅灯";
             this.tabPage3.UseVisualStyleBackColor = true;
+            this.tabPage3.Click += new System.EventHandler(this.tabPage3_Click);
             // 
             // tabPage4
             // 
@@ -112,6 +113,7 @@ namespace Client
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "空调";
             this.tabPage4.UseVisualStyleBackColor = true;
+            this.tabPage4.Click += new System.EventHandler(this.tabPage4_Click);
             // 
             // tabPage5
             // 
