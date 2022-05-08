@@ -41,8 +41,10 @@ namespace Device
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Control.CheckForIllegalCrossThreadCalls = false;
-            initConnect("AirCondition");
+            Control.CheckForIllegalCrossThreadCalls = false; // 窗体控件不检查线程操作
+            initConnect("AirCondition"); // 初始化 空调的连接
+            initConnect("Calorifier"); // 初始化 热水器的连接
+            initConnect("Cooker"); // 初始化 热水器的连接
         }
 
         void initConnect(string deviceName)
@@ -58,8 +60,8 @@ namespace Device
                 socket.Connect(new IPEndPoint(IPAddress.Parse(ip), port));
                 Byte[] byteNum = new Byte[64];
                 byteNum = System.Text.Encoding.UTF8.GetBytes(("Name-" + deviceName).ToCharArray());
-                socket.Send(byteNum, byteNum.Length, 0);
-                Thread thread = new Thread(Receive);
+                socket.Send(byteNum, byteNum.Length, 0); // 发送身份信息
+                Thread thread = new Thread(Receive); // 开启一个线程
                 thread.IsBackground = true;
                 thread.Start(socket);
                 sockets.Add(deviceName, socket);
@@ -90,7 +92,6 @@ namespace Device
                 {
                     if (r != 0)
                     {
-
                         string str = Encoding.UTF8.GetString(buffer, 0, r);
                         uil.State = UILightState.Blink;
                         //MessageBox.Show(str);
