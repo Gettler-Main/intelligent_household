@@ -18,6 +18,7 @@ import java.util.Map;
 @RestController
 @Api(tags = {"用户接口"})
 @RequestMapping("User")
+@CrossOrigin
 public class UserController {
     UserMapper userMapper = MybatisUtils.getSqlseesion().getMapper(UserMapper.class);
 
@@ -28,9 +29,9 @@ public class UserController {
         userExample.createCriteria().andUsernameEqualTo(username).andPasswordEqualTo(password);
         List<User> user = userMapper.selectByExample(userExample);
         if (user.isEmpty()) {
-            return Result.success(false);
+            return Result.fail(402, "用户名密码错误");
         }
-        return Result.success(true);
+        return Result.success(user.get(0).getUserid());
     }
 
     @GetMapping("register")
@@ -41,9 +42,10 @@ public class UserController {
         List<User> user = userMapper.selectByExample(userExample);
         if (user.isEmpty()) {
             userMapper.insert(new User(username, password));
-            return Result.success(false);
+            user = userMapper.selectByExample(userExample);
+            return Result.success(user.get(0).getUserid());
         }
-        return Result.success("用户名重复");
+        return Result.fail(402, "用户名重复");
     }
 
     @GetMapping("delete")
@@ -59,7 +61,7 @@ public class UserController {
         userExample.createCriteria().andUsernameEqualTo(username).andPasswordEqualTo(password);
         List<User> users = userMapper.selectByExample(userExample);
         if (users.isEmpty()) {
-            return Result.success("原密码错误");
+            return Result.fail(402, "原密码错误");
         }
         return Result.success(userMapper.updateByExample(new User(users.get(0).getUserid(), newUserName, newPassword), userExample));
     }

@@ -80,7 +80,46 @@ $(function () {
 
 
   $("#register").click(function () {
-    let password = 
+    let password = $("input[name='password']").val()
+    let rpassword = $("input[name='rpassword']").val()
+    if (password !== rpassword) {
+      alert("两次输入的密码不一致，请重新输入")
+      $("input[name='rpassword']").val() = ""
+      $("input[name='password']").val() = ""
+      return false
+    }
+    $.ajax({
+      url: "http://47.93.12.205:8080/controlcenter/User/register",
+      type: "get",
+      dataType: "json",
+      data: "username=" + $("input[name='username']").val() + "&password=" + password,
+      success: function (result) {
+        if (result.data)
+          alert("注册成功")
+        location.href = "/index.html?userid=" + result.userid
+      },
+      error: function (result) { alert(result.msg) }
+    })
+  })
+
+  $("#login").click(function () {
+    console.log("login")
+    let password = $("input[name='password']").val()
+    $.ajax({
+      url: "http://47.93.12.205:8080/controlcenter/User/check",
+      type: "get",
+      dataType: "json",
+      data: "username=" + $("input[name='username']").val() + "&password=" + password,
+      success: function (result) {
+        if (result.data)
+          location.href = "/index.html?userid=" + result.data
+      },
+      error: function (result) {
+        alert(result.msg)
+        $("input[name='username']").val() = ""
+        $("input[name='password']").val() = ""
+      }
+    })
   })
 
   $("#nav-profile-tab").click(function () {

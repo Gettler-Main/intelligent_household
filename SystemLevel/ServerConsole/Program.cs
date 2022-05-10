@@ -279,6 +279,17 @@ namespace ServerConsole
                                     // 向设备端发送命令
                                     send(sockets[tar], op);
                                 }
+                                else if (str.Length >= t + 4 && str.Substring(t + 1, 2) == "SY")
+                                {
+                                    string op = "";
+                                    op += str[t + 3];
+                                    if (str[t + 3] == '2' && str.Length >= t + 6) // OP后为2表示调整温度
+                                    {
+                                        op += str.Substring(t + 4, 2);
+                                    }
+                                    // 向客户端发送命令
+                                    send(sockets["Client"], op);
+                                }
                             }
                             else if (str.Length >= 7 && str.Substring(0, 7) == "getLogs")
                             {
