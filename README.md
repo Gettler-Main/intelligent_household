@@ -127,6 +127,10 @@
 
 `socketNames` 存储`socket`到设备名的映射
 
+### 接口文档
+
+[ControlCenter](http://47.93.12.205:8080/controlcenter/swagger-ui.html#/)
+
 
 
 ### 数据库表

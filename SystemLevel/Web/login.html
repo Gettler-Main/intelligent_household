@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+	<!-- 必须的 meta 标签 -->
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+	<title>Hello, world!</title>
+	<!-- Bootstrap 的 CSS 文件 -->
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/css/bootstrap.min.css" />
+	<link rel="stylesheet" type="text/css" href="./css/style.css">
+	<!--  popper.min.js 用于弹窗、提示、下拉菜单 -->
+	<script src="https://cdn.staticfile.org/popper.js/2.9.3/umd/popper.min.js"></script>
+
+	<!-- 最新的 Bootstrap5 核心 JavaScript 文件 -->
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/js/bootstrap.min.js"></script>
+
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<link rel="stylesheet" href="css/login.css" />
+	<title>Hello, world!</title>
+</head>
+
+<body>
+	<div class="container" id="outer">
+		<div class="col-sm-9" id="bgImg"></div>
+		<div class="col-sm-3" id="c">
+			<div class="container-fluid">
+				<div class="row-fluid">
+					<div class="span12">
+						<nav>
+							<div class="nav nav-tabs nav-pills nav-fill" id="nav-tab" role="tablist">
+								<button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
+									data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
+									aria-selected="true">登录</button>
+								<button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab"
+									data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile"
+									aria-selected="false">注册</button>
+							</div>
+						</nav>
+						<div class="tab-content" id="nav-tabContent">
+							<div class="tab-pane fade show active" id="nav-home" role="tabpanel"
+								aria-labelledby="nav-home-tab">
+								<div class=" center-block" style="display:flex;
+								justify-content: center;
+								align-items: center;margin:20px; ">
+									<div class="tab-pane active" id="panel-721641">
+										<div class="d">
+											<h1 class="display-1">Login</h1>
+											<input type="text" name="username" class="col form-control e"
+												placeholder="Enter UserName" />
+											<input type="password" name="password" class="col form-control e"
+												placeholder="Enter Password" />
+											<!-- <a href="#" class="f">Forget the password ?</a> -->
+											<button class="btn btn-primary g" id="login">Login</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="tab-pane fade" id="nav-profile" role="tabpanel"
+								aria-labelledby="nav-profile-tab">
+								<div class=" center-block" style="display:flex;
+								justify-content: center;
+								align-items: center;margin:20px; ">
+									<div class="d" id="login_block">
+										<h1 class="display-1" style="text-align: center;">Register</h1>
+										<input type="text" name="username" class="col form-control e"
+											placeholder="Enter UserName" />
+										<input type="password" name="password" class="col form-control e"
+											placeholder="Enter Password" />
+										<input type="password" name="password" class="col form-control e"
+											placeholder="Confirm Password" />
+										<button class="btn btn-primary g" id="register">Register</button>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+
+	</div>
+</body>
+
+</html>
