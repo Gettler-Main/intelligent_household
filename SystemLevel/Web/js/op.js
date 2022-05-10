@@ -13,30 +13,63 @@ $(function () {
     dataType: "json",
     data: "userid=" + userid[1],
     success: function (result) {
-        console.log(result)
-        port = result.data.num
-        ws = new WebSocket("ws://47.93.12.205:" + port) //建立连接
+      console.log(result)
+      port = result.data.num
+      ws = new WebSocket("ws://47.93.12.205:" + port) //建立连接
+      // var ws = new WebSocket("ws://127.0.10.1:50000")   //建立连接
+      ws.onopen = function () {
+        //发送请求
+        console.log("open")
+        ws.send("Name-Client")
+        // ws.send("AirCondition:OP225")
+      }
+      ws.onmessage = function (ev) {
+        //获取后端响应
+        console.log(ev.data)
+      }
+      ws.addEventListener("message", function (event) {
+        var data = event.data
+        console.log(data)
+        var str = data
+        var t = str.IndexOf(':') // 传输信息格式为 AirCondition:OP225
+        if (t != -1) {
+          var tarDevice = str.Substring(0, t)
+          if (str.Length >= t + 4 && str.Substring(t + 1, 2) == "SY") // OP标注是否对设备端操作
+          {
+            if (str[t + 3] == '0') {
+              $("#If" + tarDevice + "On").html("状态：关")
+            } else if (str[t + 3] == '1') {
+              $("#If" + tarDevice + "On").html("状态：开")
+            }
+            else if (str[t + 3] == '2' && str.Length >= t + 6) // OP后为2表示调整温度
+            {
+              var tem = str.substring(t + 4)
+              document.getElementsByClassName(
+                tarDevice + " temputer"
+              )[0].innerText = tem
+            }
+          }
+        } else if (str.contains("power")) {
+          myDevice = str.substring(5)
+          if (document.getElementById(myDevice + "State") !== null){
+            document.getElementById(myDevice + "State").classList.remove("collapsed");
+            document.getElementById(document.getElementById(myDevice + "State").getAttribute("aria-controls")).classList.add("show");
+            document.getElementById(myDevice + "State").disabled = false
+          }
+        }
+        // 处理数据
+      })
+      ws.onclose = function (ev) {
+        console.log("close")
+      }
+      ws.onerror = function (ev) {
+        console.log("error")
+      }
     },
     error: function (result) { alert("连接失败") }
   })
-  
-  // var ws = new WebSocket("ws://127.0.10.1:50000")   //建立连接
-  ws.onopen = function () {
-    //发送请求
-    console.log("open")
-    ws.send("Name-Client")
-    // ws.send("AirCondition:OP225")
-  }
-  ws.onmessage = function (ev) {
-    //获取后端响应
-    console.log(ev)
-  }
-  ws.onclose = function (ev) {
-    console.log("close")
-  }
-  ws.onerror = function (ev) {
-    console.log("error")
-  }
+
+
 
   var devices = ["AirCondition", "BedroomLight", "Calorifier"]
   var operators = ["up", "down"]
@@ -51,8 +84,12 @@ $(function () {
       if (device.length > 0) {
         var thisDevice = device[0]
         if (this.checked) {
+          // document.getElementById("#If" + thisDevice + "On").innerText = "状态：开"
+          $("#If" + thisDevice + "On").html("状态：开")
           ws.send(thisDevice + ":OP1")
         } else {
+          // document.getElementById("#If" + thisDevice + "On").innerText = "状态：关"
+          $("#If" + thisDevice + "On").html("状态：关")
           ws.send(thisDevice + ":OP0")
         }
       }
@@ -103,7 +140,7 @@ $(function () {
     var that = this
     ws.onmessage = function (ev) {
       //获取后端响应
-      console.log(ev.data)
+      // console.log(ev.data)
       document.getElementById("logs").innerText = ev.data
     }
   })

@@ -260,6 +260,7 @@ namespace ServerConsole
                                 sockets.Add(name, socketSend);
                                 socketNames.Add(socketSend, name);
                                 Console.WriteLine(name + "已连接");
+                                PackeSend(sockets["Client"], "power" + name);
                                 logs += name + "已连接\n";
                             }
                             int t = str.IndexOf(':'); // 传输信息格式为 AirCondition:OP225
@@ -281,20 +282,21 @@ namespace ServerConsole
                                 }
                                 else if (str.Length >= t + 4 && str.Substring(t + 1, 2) == "SY")
                                 {
-                                    string op = "";
-                                    op += str[t + 3];
-                                    if (str[t + 3] == '2' && str.Length >= t + 6) // OP后为2表示调整温度
-                                    {
-                                        op += str.Substring(t + 4, 2);
-                                    }
+                                    logs += "同步 " + tar + " : " + str.Substring(t + 1);
+                                    //string op = "";
+                                    //op += str[t + 3];
+                                    //if (str[t + 3] == '2' && str.Length >= t + 6) // OP后为2表示调整温度
+                                    //{
+                                    //    op += str.Substring(t + 4, 2);
+                                    //}
                                     // 向客户端发送命令
-                                    send(sockets["Client"], op);
+                                    PackeSend(sockets["Client"], str);
                                 }
                             }
                             else if (str.Length >= 7 && str.Substring(0, 7) == "getLogs")
                             {
                                 logs += socketNames[socketSend] + " : want to get logs\n";
-                                send(sockets["Client"], logs);
+                                PackeSend(sockets["Client"], logs);
                             }
                         }
                         length = socketSend.Receive(buffer);

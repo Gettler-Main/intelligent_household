@@ -56,7 +56,7 @@ namespace Device
                 //2、绑定ip和端口
                 //String ip = "127.0.10.1";
                 String ip = "47.93.12.205";
-                int port = 50000;
+                int port = 50017;
                 socket.Connect(new IPEndPoint(IPAddress.Parse(ip), port));
                 Byte[] byteNum = new Byte[64];
                 byteNum = System.Text.Encoding.UTF8.GetBytes(("Name-" + deviceName).ToCharArray());

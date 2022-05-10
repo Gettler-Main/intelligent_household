@@ -42,13 +42,13 @@
                                     <div class="accordion  accordion-flush" id="accordionExample">
                                         <div class="accordion-item">
                                             <h2 class="accordion-header" id="headingOne">
-                                                <button class="accordion-button " type="button"
-                                                    data-bs-toggle="collapse" data-bs-target="#collapseOne"
-                                                    aria-expanded="true" aria-controls="collapseOne">
+                                                <button class="accordion-button collapsed" type="button" id="AirConditionState"
+                                                    data-bs-toggle="collapse" data-bs-target="#collapseOne" disabled
+                                                    aria-expanded="false" aria-controls="collapseOne">
                                                     空调
                                                 </button>
                                             </h2>
-                                            <div id="collapseOne" class="accordion-collapse collapse show"
+                                            <div id="collapseOne" class="accordion-collapse collapse"
                                                 aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                                 <div class="accordion-body">
 
@@ -60,7 +60,8 @@
                                                                     width="20%" src="images/AirConditionOff.png" />
                                                             </div>
                                                             <div class="col ">
-                                                                <h3 style="text-align: center">状态：关</h3>
+                                                                <h3 id="IfAirConditionOn" style="text-align: center">
+                                                                    状态：关</h3>
                                                                 <h4 style="text-align: center">温度：<text
                                                                         class="AirCondition temputer">26</text>℃</h4>
                                                             </div>
@@ -70,8 +71,7 @@
                               align-items: center;">
                                                                     <input class="OP form-check-input AirCondition"
                                                                         type="checkbox" id="flexSwitch"
-                                                                        style="width: 50%; margin-bottom: 10%;"
-                                                                        checked />
+                                                                        style="width: 50%; margin-bottom: 10%;" />
                                                                 </div>
                                                                 <div>
                                                                     <button class="OP AirCondition up"
@@ -102,8 +102,9 @@
                                         <div class="accordion-item">
                                             <h2 class="accordion-header" id="headingTwo">
                                                 <button class="accordion-button collapsed" type="button"
-                                                    data-bs-toggle="collapse" data-bs-target="#collapseTwo"
-                                                    aria-expanded="false" aria-controls="collapseTwo">
+                                                    id="BedroomLightState" data-bs-toggle="collapse" disabled
+                                                    data-bs-target="#collapseTwo" aria-expanded="false"
+                                                    aria-controls="collapseTwo">
                                                     卧室灯
                                                 </button>
                                             </h2>
@@ -118,7 +119,8 @@
                                                                     width="20%" src="images/LightOff.png" />
                                                             </div>
                                                             <div class="col ">
-                                                                <h3 style="text-align: center">状态：关</h3>
+                                                                <h3 id="IfBedroomLightOn" style="text-align: center">
+                                                                    状态：关</h3>
                                                                 <h4 style="text-align: center">亮度：<text
                                                                         class="BedroomLight temputer">50</text>%</h4>
                                                             </div>
@@ -128,8 +130,7 @@
                               align-items: center;">
                                                                     <input class="OP form-check-input BedroomLight"
                                                                         type="checkbox" id="flexSwitch"
-                                                                        style="width: 50%; margin-bottom: 10%;"
-                                                                        checked />
+                                                                        style="width: 50%; margin-bottom: 10%;" />
                                                                 </div>
                                                                 <div>
                                                                     <button style="width: 25%;"
@@ -157,8 +158,8 @@
                                         </div>
                                         <div class="accordion-item">
                                             <h2 class="accordion-header" id="headingThree">
-                                                <button class="accordion-button collapsed" type="button"
-                                                    data-bs-toggle="collapse" data-bs-target="#collapseThree"
+                                                <button class="accordion-button collapsed" type="button" id="StripState"
+                                                    data-bs-toggle="collapse" data-bs-target="#collapseThree" disabled
                                                     aria-expanded="false" aria-controls="collapseThree">
                                                     插座
                                                 </button>
@@ -174,7 +175,7 @@
                                                                     width="20%" src="images/StripOff.png" />
                                                             </div>
                                                             <div class="col ">
-                                                                <h3 style="text-align: center">状态：关</h3>
+                                                                <h3 id="IfStripOn" style="text-align: center">状态：关</h3>
                                                                 <h4 style="text-align: center">温度：26℃</h4>
                                                             </div>
                                                             <div class="col state">
@@ -183,8 +184,7 @@
                               align-items: center;">
                                                                     <input class="OP Strip form-check-input"
                                                                         type="checkbox" id="flexSwitch"
-                                                                        style="width: 50%; margin-bottom: 10%;"
-                                                                        checked />
+                                                                        style="width: 50%; margin-bottom: 10%;" />
                                                                 </div>
                                                                 <div>
                                                                     <button style="width: 25%;">
@@ -211,8 +211,9 @@
                                         <div class="accordion-item">
                                             <h2 class="accordion-header" id="headingFour">
                                                 <button class="accordion-button collapsed" type="button"
-                                                    data-bs-toggle="collapse" data-bs-target="#collapseFour"
-                                                    aria-expanded="false" aria-controls="collapseFour">
+                                                    id="CalorifierState" data-bs-toggle="collapse" disabled
+                                                    data-bs-target="#collapseFour" aria-expanded="false"
+                                                    aria-controls="collapseFour">
                                                     热水器
                                                 </button>
                                             </h2>
@@ -227,7 +228,8 @@
                                                                     width="20%" src="images/CalorifierOff.png" />
                                                             </div>
                                                             <div class="col ">
-                                                                <h3 style="text-align: center">状态：关</h3>
+                                                                <h3 id="IfCalorifierOn" style="text-align: center">状态：关
+                                                                </h3>
                                                                 <h4 style="text-align: center">温度：<text
                                                                         class="Calorifier temputer">35</text>℃</h4>
                                                             </div>
@@ -237,8 +239,7 @@
                             align-items: center;">
                                                                     <input class="OP form-check-input Calorifier"
                                                                         type="checkbox" id="flexSwitch"
-                                                                        style="width: 50%; margin-bottom: 10%;"
-                                                                        checked />
+                                                                        style="width: 50%; margin-bottom: 10%;" />
                                                                 </div>
 
                                                                 <div class="btn-group-vertical  center-block" style="display:flex;
@@ -261,11 +262,11 @@
                         <div class=" center-block" style="display:flex;
                         justify-content: center;
                         align-items: center;margin:20px; ">
-                    <div id="logs" class=" pre-scrollable" style="height :600 px; width: 300px ;"></div>    
-                    </div>
+                            <div id="logs" class=" pre-scrollable" style="height :600 px; width: 300px ;"></div>
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-                        
+
                     </div>
                 </div>
             </div>
