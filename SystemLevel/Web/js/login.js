@@ -9,20 +9,47 @@ $(function () {
       $("input[name='register_password']").val() = ""
       return false
     }
+    var userId, port
     $.ajax({
       url: "http://47.93.12.205:8080/controlcenter/User/register",
       type: "get",
       dataType: "json",
       data: "username=" + $("input[name='register_username']").val() + "&password=" + password,
       success: function (result) {
-        if (result.data) {
+        if (result.success) {
           console.log(result)
-          alert("注册成功,正在自动登录")
+          userId = result.data
+          $.ajax({
+            url: "http://47.93.12.205:8080/controlcenter/Port/findFreePort",
+            type: "get",
+            dataType: "json",
+            data: "",
+            success: function (result) {
+              console.log(result)
+              port = result.data
+              $.ajax({
+                url: "http://47.93.12.205:8080/controlcenter/Port/addport",
+                type: "get",
+                dataType: "json",
+                data: "userid=" + userId + "&num=" + port,
+                success: function (result) {
+                  console.log(result)
+                  alert("注册成功,正在自动登录")
+                  location.href = "/home.html?userid=" + userId
+                },
+                error: function (result) { alert(result.msg) }
+              })
+            },
+            error: function (result) { alert(result.msg) }
+          })
+        } else {
+          alert(result.msg)
         }
-        location.href = "/index.html?userid=" + result.data
       },
       error: function (result) { alert(result.msg) }
     })
+
+
   })
 
   $("#login").click(function () {
@@ -35,8 +62,8 @@ $(function () {
       data: "username=" + $("input[name='login_username']").val() + "&password=" + password,
       success: function (result) {
         if (result.data) {
-          console.log(res)
-          location.href = "/index.html?userid=" + result.data
+          console.log(result)
+          location.href = "/home.html?userid=" + result.data
         }
       },
       error: function (result) {

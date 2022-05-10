@@ -35,9 +35,10 @@ public class PortController {
         if (port.isEmpty()) {
             int pid = ShellPower.addPort(num);
             portMapper.insert(new Port(userid, num, pid));
-            return Result.success(false);
+            System.out.println(pid);
+            return Result.success("添加端口成功");
         }
-        return Result.success("用户ID已存在");
+        return Result.fail(402, "用户已有端口");
     }
 
     @GetMapping("deleteport")
@@ -71,6 +72,25 @@ public class PortController {
     @ApiOperation(value = "通过用户Id查找端口号")
     public Result findPortByUserId(@ApiParam(name = "id", value = "用户ID", required = true, example = "1") Integer userid) {
         return Result.success(portMapper.selectByPrimaryKey(userid));
+    }
+
+    @GetMapping("findFreePort")
+    @ApiOperation(value = "找个空闲端口号")
+    public Result findFreePort() {
+        List<Port> temp = portMapper.selectByExample(null);
+        for (int i = 50001; i < 51000; i++) {
+            boolean flag = false;
+            for (int j = 0; j < temp.size(); j++) {
+                if (temp.get(j).getNum() == i) {
+                    flag = true;
+                    break;
+                }
+            }
+            if (!flag) {
+                return Result.success(i);
+            }
+        }
+        return Result.fail(402, "当前时间无空闲端口");
     }
 
 }

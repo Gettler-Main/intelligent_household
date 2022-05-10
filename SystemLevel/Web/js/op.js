@@ -1,5 +1,25 @@
 $(function () {
-  var ws = new WebSocket("ws://47.93.12.205:50000") //建立连接
+  if (location.href.indexOf("?") == -1 || location.href.indexOf('=') == -1) { return '' }
+  // 获取链接中参数部分
+  var ws
+  var queryString = location.href.substring(location.href.indexOf("?") + 1)
+  // 分离参数对 ?key=value&key2=value2
+  var userid = queryString.split("=")
+  console.log(userid)
+  var port
+  $.ajax({
+    url: "http://47.93.12.205:8080/controlcenter/Port/findPortByUserId",
+    type: "get",
+    dataType: "json",
+    data: "userid=" + userid[1],
+    success: function (result) {
+        console.log(result)
+        port = result.data.num
+        ws = new WebSocket("ws://47.93.12.205:" + port) //建立连接
+    },
+    error: function (result) { alert("连接失败") }
+  })
+  
   // var ws = new WebSocket("ws://127.0.10.1:50000")   //建立连接
   ws.onopen = function () {
     //发送请求
@@ -77,50 +97,6 @@ $(function () {
   function sleep (time) {
     return new Promise((resolve) => setTimeout(resolve, time))
   }
-
-
-  $("#register").click(function () {
-    let password = $("input[name='password']").val()
-    let rpassword = $("input[name='rpassword']").val()
-    if (password !== rpassword) {
-      alert("两次输入的密码不一致，请重新输入")
-      $("input[name='rpassword']").val() = ""
-      $("input[name='password']").val() = ""
-      return false
-    }
-    $.ajax({
-      url: "http://47.93.12.205:8080/controlcenter/User/register",
-      type: "get",
-      dataType: "json",
-      data: "username=" + $("input[name='username']").val() + "&password=" + password,
-      success: function (result) {
-        if (result.data)
-          alert("注册成功")
-        location.href = "/index.html?userid=" + result.userid
-      },
-      error: function (result) { alert(result.msg) }
-    })
-  })
-
-  $("#login").click(function () {
-    console.log("login")
-    let password = $("input[name='password']").val()
-    $.ajax({
-      url: "http://47.93.12.205:8080/controlcenter/User/check",
-      type: "get",
-      dataType: "json",
-      data: "username=" + $("input[name='username']").val() + "&password=" + password,
-      success: function (result) {
-        if (result.data)
-          location.href = "/index.html?userid=" + result.data
-      },
-      error: function (result) {
-        alert(result.msg)
-        $("input[name='username']").val() = ""
-        $("input[name='password']").val() = ""
-      }
-    })
-  })
 
   $("#nav-profile-tab").click(function () {
     ws.send("getLogs")

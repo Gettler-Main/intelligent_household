@@ -43,7 +43,8 @@ public class UserController {
         if (user.isEmpty()) {
             userMapper.insert(new User(username, password));
             user = userMapper.selectByExample(userExample);
-            return Result.success(user.get(0).getUserid());
+            int userId = user.get(0).getUserid();
+            return Result.success(userId);
         }
         return Result.fail(402, "用户名重复");
     }

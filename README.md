@@ -131,8 +131,6 @@
 
 [ControlCenter](http://47.93.12.205:8080/controlcenter/swagger-ui.html#/)
 
-
-
 ### 数据库表
 
 #### user 用户表
@@ -185,7 +183,9 @@ Process proc = Runtime.getRuntime().exec("echo " + num.toString() + " | dotnet /
 
 
 
+### 调试必备
 
+删除所有关于 `dotnet`的进程`sudo kill -9 $(pidof dotnet)`
 
 
 

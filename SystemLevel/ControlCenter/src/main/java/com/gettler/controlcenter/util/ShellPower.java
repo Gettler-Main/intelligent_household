@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -87,8 +88,21 @@ public class ShellPower {
     }
 
     public static int addPort(Integer num) throws IOException {
-        Process proc = Runtime.getRuntime().exec("echo " + num.toString() + " | dotnet /home/C#/out/ServerConsole.dll > /home/C#/logs/" + num.toString() + ".txt");
-        return Integer.parseInt(getProcessId(proc));
+        Process proc = null, proc2;
+        List<String> cmds = new ArrayList<String>();
+        cmds.add("sh");
+        cmds.add("-c");
+        cmds.add("echo " + num.toString() + " | dotnet /home/C#/out/ServerConsole.dll > /home/C#/logs/" + num.toString() + ".txt");
+        ProcessBuilder pb = new ProcessBuilder(cmds);
+        Process p = pb.start();
+//        proc = Runtime.getRuntime().exec("sh -c echo " + num.toString() + " | dotnet /home/C#/out/ServerConsole.dll > /home/C#/logs/" + num.toString() + ".txt");
+//        proc2 = Runtime.getRuntime().exec("touch /home/C#/logs/123.txt");
+//        proc2 = Runtime.getRuntime().exec("chmod 777 /home/C#/logs/123.txt");
+//        proc2 = Runtime.getRuntime().exec("echo '456456456\n' > /home/C#/logs/123.txt");
+//        proc2 = Runtime.getRuntime().exec("dotnet /home/C#/out/ServerConsole.dll");
+//        System.out.println(Integer.parseInt(getProcessId(p)));
+//        System.out.println("sh -c echo " + num.toString() + " | dotnet /home/C#/out/ServerConsole.dll > /home/C#/logs/" + num.toString() + ".txt");
+        return Integer.parseInt(getProcessId(p));
     }
 
     public static void deletePort(Integer userid) {
