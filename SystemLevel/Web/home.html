@@ -8,6 +8,7 @@
     <title>Document</title>
     <!-- 新 Bootstrap5 核心 CSS 文件 -->
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/css/bootstrap.min.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="./css/login.css"> -->
     <link rel="stylesheet" type="text/css" href="./css/style.css">
     <!--  popper.min.js 用于弹窗、提示、下拉菜单 -->
     <script src="https://cdn.staticfile.org/popper.js/2.9.3/umd/popper.min.js"></script>
@@ -42,9 +43,10 @@
                                     <div class="accordion  accordion-flush" id="accordionExample">
                                         <div class="accordion-item">
                                             <h2 class="accordion-header" id="headingOne">
-                                                <button class="accordion-button collapsed" type="button" id="AirConditionState"
-                                                    data-bs-toggle="collapse" data-bs-target="#collapseOne" disabled
-                                                    aria-expanded="false" aria-controls="collapseOne">
+                                                <button class="accordion-button collapsed" type="button"
+                                                    id="AirConditionState" data-bs-toggle="collapse"
+                                                    data-bs-target="#collapseOne" disabled aria-expanded="false"
+                                                    aria-controls="collapseOne">
                                                     空调
                                                 </button>
                                             </h2>
@@ -265,8 +267,15 @@
                             <div id="logs" class=" pre-scrollable" style="height :600 px; width: 300px ;"></div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-
+                    <div class="tab-pane fade " id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                        <input type="text" name="newNum" class="col form-control" style="margin: 40px 0;
+                        border: 0;
+                        padding: 10px;
+                        border-bottom: 3px solid rgb(80, 80, 170);
+                        font: 900 20px ;
+                        text-align: center;
+                        width: 250px;text-align:center;vertical-align:middle;" placeholder="请输入端口号" />
+                        <button id="updatePort">确认修改端口</button>
                     </div>
                 </div>
             </div>
