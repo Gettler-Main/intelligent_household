@@ -123,6 +123,16 @@ namespace Device.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap BedroomLightOn {
+            get {
+                object obj = ResourceManager.GetObject("BedroomLightOn", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap BedroomLightSoft {
             get {
                 object obj = ResourceManager.GetObject("BedroomLightSoft", resourceCulture);
@@ -226,6 +236,16 @@ namespace Device.Properties {
         internal static System.Drawing.Bitmap LightOff {
             get {
                 object obj = ResourceManager.GetObject("LightOff", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap LightOn {
+            get {
+                object obj = ResourceManager.GetObject("LightOn", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
