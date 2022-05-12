@@ -81,15 +81,15 @@ namespace Device
             {
                 byte[] buffer = new byte[1024 * 1024 * 2];
                 int r = socketSend.Receive(buffer);
-                UILight uil = (UILight)Controls[deviceName + "_uiLight"];
-                uil.State = UILightState.On;
+                //UILight uil = (UILight)Controls[deviceName + "_uiLight"];
+                //uil.State = UILightState.On;
                 while (true)
                 {
                     if (r != 0)
                     {
 
                         string str = Encoding.UTF8.GetString(buffer, 0, r);
-                        uil.State = UILightState.Blink;
+                        //uil.State = UILightState.Blink;
                         //MessageBox.Show(str);
                         if (str[0] == '1')
                             openDevice(deviceName);
@@ -107,7 +107,7 @@ namespace Device
                         r = socketSend.Receive(buffer);
                     }
                 }
-                uil.State = UILightState.On;
+                //uil.State = UILightState.On;
             }
             catch
             {
