@@ -3,14 +3,11 @@ package com.gettler.controlcenter.util;
 import com.gettler.controlcenter.mapper.PortMapper;
 import com.gettler.controlcenter.pojo.Port;
 import com.sun.jna.Platform;
-import org.springframework.util.StringUtils;
+import lombok.SneakyThrows;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.lang.reflect.Field;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,68 +44,65 @@ public class ShellPower {
      *
      * @param pid 进程的PID
      */
-    public static boolean killProcessByPid(String pid) {
-        if (StringUtils.isEmpty(pid) || "-1".equals(pid)) {
-            throw new RuntimeException("Pid ==" + pid);
-        }
-        Process process = null;
-        BufferedReader reader = null;
-        String command = "";
-        boolean result = false;
-        if (Platform.isWindows()) {
-            command = "cmd.exe /c taskkill /PID " + pid + " /F /T ";
-        } else if (Platform.isLinux() || Platform.isAIX()) {
-            command = "kill -9 " + pid;
-        }
-        try {
-            //杀掉进程
-            process = Runtime.getRuntime().exec(command);
-            reader = new BufferedReader(new InputStreamReader(process.getInputStream(), "utf-8"));
-//            String line = null;
-//            while((line = reader.readLine())!=null){
-//                log.info("kill PID return info -----> "+line);
+    public static void killProcessByPid(String pid) throws IOException {
+//        if (StringUtils.isEmpty(pid) || "-1".equals(pid)) {
+//            throw new RuntimeException("Pid ==" + pid);
+//        }
+//        Process process = null;
+//        BufferedReader reader = null;
+//        String command = "";
+//        boolean result = false;
+//        if (Platform.isWindows()) {
+//            command = "cmd.exe /c taskkill /PID " + pid + " /F /T ";
+//        } else if (Platform.isLinux() || Platform.isAIX()) {
+        String command = "kill -9 " + pid;
+//        }
+        System.out.println(pid);
+//        try {
+//            //杀掉进程
+//            process = Runtime.getRuntime().exec(command);
+//            reader = new BufferedReader(new InputStreamReader(process.getInputStream(), "utf-8"));
+////            String line = null;
+////            while((line = reader.readLine())!=null){
+////                log.info("kill PID return info -----> "+line);
+////            }
+//            result = true;
+//        } catch (Exception e) {
+////            log.info("杀进程出错：", e);
+////            result = false;
+//        } finally {
+//            if (process != null) {
+//                process.destroy();
 //            }
-            result = true;
-        } catch (Exception e) {
-//            log.info("杀进程出错：", e);
-            result = false;
-        } finally {
-            if (process != null) {
-                process.destroy();
-            }
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-
-                }
-            }
-        }
-        return result;
+//            if (reader != null) {
+//                try {
+//                    reader.close();
+//                } catch (IOException e) {
+//
+//                }
+//            }
+//        }
+        List<String> cmds = new ArrayList<String>();
+        cmds.add("sh");
+        cmds.add("-c");
+        cmds.add(command);
+        ProcessBuilder pb = new ProcessBuilder(cmds);
+        Process p = pb.start();
     }
 
     public static int addPort(Integer num) throws IOException {
-        Process proc = null, proc2;
         List<String> cmds = new ArrayList<String>();
         cmds.add("sh");
         cmds.add("-c");
         cmds.add("echo " + num.toString() + " | dotnet /home/C#/out/ServerConsole.dll > /home/C#/logs/" + num.toString() + ".txt");
         ProcessBuilder pb = new ProcessBuilder(cmds);
         Process p = pb.start();
-//        proc = Runtime.getRuntime().exec("sh -c echo " + num.toString() + " | dotnet /home/C#/out/ServerConsole.dll > /home/C#/logs/" + num.toString() + ".txt");
-//        proc2 = Runtime.getRuntime().exec("touch /home/C#/logs/123.txt");
-//        proc2 = Runtime.getRuntime().exec("chmod 777 /home/C#/logs/123.txt");
-//        proc2 = Runtime.getRuntime().exec("echo '456456456\n' > /home/C#/logs/123.txt");
-//        proc2 = Runtime.getRuntime().exec("dotnet /home/C#/out/ServerConsole.dll");
-//        System.out.println(Integer.parseInt(getProcessId(p)));
-//        System.out.println("sh -c echo " + num.toString() + " | dotnet /home/C#/out/ServerConsole.dll > /home/C#/logs/" + num.toString() + ".txt");
         return Integer.parseInt(getProcessId(p));
     }
 
-    public static void deletePort(Integer userid) {
-        PortMapper portMapper = MybatisUtils.getSqlseesion().getMapper(PortMapper.class);
-        Port port = portMapper.selectByPrimaryKey(userid);
-        killProcessByPid(port.getPid().toString());
+    @SneakyThrows
+    public static void deletePort(Integer pid) {
+        killProcessByPid(pid.toString());
     }
 
 }

@@ -20,31 +20,25 @@ namespace Device
         {
             InitializeComponent();
         }
-
-
         Dictionary<string, Socket> sockets = new Dictionary<string, Socket>();
         Dictionary<Socket, string> socketNames = new Dictionary<Socket, string>();
-
         void openDevice(string deviceName)
         {
             Controls[deviceName + "_label2"].Text = "状态：开";
             PictureBox pb = (PictureBox)Controls[deviceName + "_pictureBox"];
             pb.Image = (Image)Properties.Resources.ResourceManager.GetObject(deviceName + "On", Properties.Resources.Culture);
         }
-
         void closeDevice(string deviceName)
         {
             Controls[deviceName + "_label2"].Text = "状态：关";
             PictureBox pb = (PictureBox)Controls[deviceName + "_pictureBox"];
             pb.Image = (Image)Properties.Resources.ResourceManager.GetObject(deviceName + "Off", Properties.Resources.Culture);
         }
-
         private void Form1_Load(object sender, EventArgs e)
         {
             Control.CheckForIllegalCrossThreadCalls = false;
             initConnect("AirCondition");
         }
-
         void initConnect(string deviceName)
         {
             try
@@ -67,8 +61,6 @@ namespace Device
                 MessageBox.Show("初始化失败" + ex.ToString());
             }
         }
-
-
         /// <summary>
         /// 接受服务端发送过来的消息
         /// </summary>
@@ -87,7 +79,6 @@ namespace Device
                 {
                     if (r != 0)
                     {
-
                         string str = Encoding.UTF8.GetString(buffer, 0, r);
                         //uil.State = UILightState.Blink;
                         //MessageBox.Show(str);
@@ -111,12 +102,8 @@ namespace Device
             }
             catch
             {
-
             }
-
         }
-
-
         private void send(Socket socket, string msg)
         {
             //构造字节数组

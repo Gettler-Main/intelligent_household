@@ -15,11 +15,10 @@ namespace ServerConsole
 {
     internal class Program
     {
-
         public static Dictionary<string, Socket> sockets = new Dictionary<string, Socket>();
+        public static Dictionary<string, long> ti = new Dictionary<string, long>();
         public static Dictionary<Socket, string> socketNames = new Dictionary<Socket, string>();
         public static string logs = "Logs：";
-
         /// <summary>
         /// 等待客户端的链接，并创建与其通信的Socket
         /// </summary>
@@ -36,14 +35,31 @@ namespace ServerConsole
                     Thread thread = new Thread(Receive);
                     thread.IsBackground = true;
                     thread.Start(socketSend);
-
+                    Thread threadCheck = new Thread(checkLink);
+                    threadCheck.IsBackground = true;
+                    threadCheck.Start();
                 }
             }
             catch
             {
 
             }
+        }
 
+        public void checkcheck()
+        {
+            while (true)
+            {
+                Thread.Sleep(10000);
+                foreach (var item in ti)
+                {
+                    if (new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds() - item.Value >= 10)
+                    {
+                        Console.WriteLine(item.Key + "连接断开");
+                        PackeSend(sockets["Client"], item.Key + ":Close");
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -87,7 +103,6 @@ namespace ServerConsole
             //发送数据
             socket.Send(byteNum, byteNum.Length, 0);
         }
-
         private static void PackeSend(Socket socket, string message)
         {
 
@@ -124,7 +139,6 @@ namespace ServerConsole
                 contentBytes[9] = (byte)(temp.Length & 0xFF);
                 Array.Copy(temp, 0, contentBytes, 10, temp.Length);
             }
-
             //构造字节数组    
             //发送内容
             //将字符串转换为字节数组
@@ -132,27 +146,41 @@ namespace ServerConsole
             //发送数据
             socket.Send(contentBytes);
         }
-
         /// <summary>
         /// 检查连接
         /// </summary>
         /// <param name="o"></param>
-        static void checkLink(object o)
+        static void checkLink()
         {
-            Socket socketSend = o as Socket;
-            string ip = ((IPEndPoint)socketSend.LocalEndPoint).Address.ToString();
             while (true)
             {
-                if (CanConnect(ip)) continue;
-                else
+                Thread.Sleep(10000);
+                foreach (var item in ti)
                 {
-                    // 修改显示
-                    break;
+                    if (new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds() - item.Value >= 10)
+                    {
+                        Console.WriteLine(item.Key + "连接断开");
+                        if (sockets.ContainsKey("Client"))
+                            PackeSend(sockets["Client"], item.Key + ":Close");
+                    }
                 }
-
             }
-        }
+            //Socket socketSend = o as Socket;
+            //string ip = ((IPEndPoint)socketSend.LocalEndPoint).Address.ToString();
+            //while (true)
+            //{
+            //    Thread.Sleep(5000);
+            //    if (CanConnect(ip)) continue;
+            //    else
+            //    {
+            //        // 修改显示
+            //        Console.WriteLine(socketNames[socketSend] + "连接断开");
+            //        PackeSend(sockets["Client"], socketNames[socketSend] + ":Close");
+            //        break;
+            //    }
 
+            //}
+        }
         /// <summary>
         /// 接受客户端发送过来的消息
         /// </summary>
@@ -165,7 +193,7 @@ namespace ServerConsole
             byte[] buffer = new byte[1024];
             int length = socketSend.Receive(buffer);
             string str = Encoding.UTF8.GetString(buffer, 0, length);
-            Console.WriteLine(str);
+            //Console.WriteLine(str);
             if (str.Contains("WebSocket"))
             {
                 Console.WriteLine("收到来自网页端的信息");
@@ -239,16 +267,30 @@ namespace ServerConsole
                 try
                 {
                     Console.WriteLine(socketSend.RemoteEndPoint.ToString() + ":连接成功！");
-                    Byte[] byteNum = new Byte[64];
-                    byteNum = System.Text.Encoding.UTF8.GetBytes("check".ToCharArray());
+                    Byte[] byteNum = new Byte[1024];
+                    Byte[] byteNum2 = Encoding.UTF8.GetBytes("check".ToCharArray());
+                    //将字符串转换为字节数组
+                    int idx = 0;
+                    for (int i = 0; i < byteNum2.Length; i++)
+                    {
+                        byteNum[idx] = byteNum2[i];
+                        idx++;
+                    }
                     socketSend.Send(byteNum, byteNum.Length, 0);
-                    buffer = new byte[1024 * 1024 * 2];
+                    //buffer = new byte[1024];
                     //int r = socketSend.Receive(buffer);
                     while (true)
                     {
                         if (length != 0)
                         {
+
                             str = Encoding.UTF8.GetString(buffer, 0, length);
+                            Console.WriteLine(str);
+                            if (str.Substring(0, 5) == "link-")
+                            {
+                                string name = str.Substring(5);
+                                ti[name] = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
+                            }
                             if (str.Substring(0, 5) == "Name-") // 传回的是身份信息
                             {
                                 string name = str.Substring(5);
@@ -260,7 +302,8 @@ namespace ServerConsole
                                 sockets.Add(name, socketSend);
                                 socketNames.Add(socketSend, name);
                                 Console.WriteLine(name + "已连接");
-                                PackeSend(sockets["Client"], "power" + name);
+                                if (sockets.ContainsKey("Client"))
+                                    PackeSend(sockets["Client"], "power" + name);
                                 logs += name + "已连接\n";
                             }
                             int t = str.IndexOf(':'); // 传输信息格式为 AirCondition:OP225
@@ -278,7 +321,8 @@ namespace ServerConsole
                                         op += str.Substring(t + 4, 2);
                                     }
                                     // 向设备端发送命令
-                                    send(sockets[tar], op);
+                                    if (sockets.ContainsKey(tar))
+                                        send(sockets[tar], op);
                                 }
                                 else if (str.Length >= t + 4 && str.Substring(t + 1, 2) == "SY")
                                 {
@@ -290,7 +334,8 @@ namespace ServerConsole
                                     //    op += str.Substring(t + 4, 2);
                                     //}
                                     // 向客户端发送命令
-                                    PackeSend(sockets["Client"], str);
+                                    if (sockets.ContainsKey("Client"))
+                                        PackeSend(sockets["Client"], str);
                                 }
                             }
                             else if (str.Length >= 7 && str.Substring(0, 7) == "getLogs")
@@ -309,8 +354,6 @@ namespace ServerConsole
 
             }
         }
-
-
         /// <summary>
         /// 打包握手信息
         /// </summary>
@@ -326,7 +369,6 @@ namespace ServerConsole
 
             return Encoding.UTF8.GetBytes(responseBuilder.ToString());
         }
-
         /// <summary>
         /// 生成Sec-WebSocket-Accept
         /// </summary>
@@ -345,7 +387,6 @@ namespace ServerConsole
             byte[] encryptionString = SHA1.Create().ComputeHash(Encoding.ASCII.GetBytes(key + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"));
             return Convert.ToBase64String(encryptionString);
         }
-
         /// <summary>
         /// 解析客户端数据包
         /// </summary>
@@ -412,8 +453,6 @@ namespace ServerConsole
 
             return Encoding.UTF8.GetString(payload_data);
         }
-
-
         /// <summary>
         /// 判断是否连接正常
         /// </summary>
@@ -433,7 +472,6 @@ namespace ServerConsole
                 return false;
             }
         }
-
         static void Main(string[] args)
         {
             //在using中创建FileStream对象fs，然后执行大括号内的代码段，

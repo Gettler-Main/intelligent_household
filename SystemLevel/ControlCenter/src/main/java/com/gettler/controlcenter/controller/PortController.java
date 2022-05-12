@@ -48,17 +48,33 @@ public class PortController {
         return Result.success(portMapper.deleteByPrimaryKey(userId));
     }
 
+    @GetMapping("startPort")
+    @ApiOperation(value = "删除端口")
+    public Result startPort(@ApiParam(name = "num", value = "端口号", required = true, example = "50001") Integer num) throws IOException {
+        PortExample portExample = new PortExample();
+        portExample.createCriteria().andNumEqualTo(num);
+        List<Port> ports = portMapper.selectByExample(portExample);
+        ShellPower.deletePort(ports.get(0).getPid());
+        int pid = ShellPower.addPort(num);
+        ports.get(0).setPid(pid);
+        return Result.success(portMapper.updateByPrimaryKeySelective(ports.get(0)));
+    }
+
     @GetMapping("updateport")
     @ApiOperation(value = "更新端口号")
-    public Result updateport(@ApiParam(name = "num", value = "端口号", required = true, example = "50001") Integer num, @ApiParam(name = "userid", value = "用户ID", required = true, example = "1") Integer userId, @ApiParam(name = "newnum", value = "新端口号", required = true, example = "50002") Integer newnum) throws IOException {
+    public Result updateport(@ApiParam(name = "num", value = "端口号", required = true, example = "50001") Integer num, @ApiParam(name = "userid", value = "用户ID", required = true, example = "1") Integer userid, @ApiParam(name = "newnum", value = "新端口号", required = true, example = "50002") Integer newnum) throws IOException {
         PortExample portExample = new PortExample();
-        portExample.createCriteria().andNumEqualTo(num).andUseridEqualTo(userId);
+        System.out.println("init");
+        portExample.createCriteria().andNumEqualTo(num).andUseridEqualTo(userid);
         List<Port> ports = portMapper.selectByExample(portExample);
         if (ports.isEmpty()) {
             return Result.success("原端口号错误");
         }
-        ShellPower.deletePort(portMapper.selectByPrimaryKey(userId).getPid());
+        System.out.println(newnum);
+        System.out.println("pid:" + portMapper.selectByPrimaryKey(userid).getPid());
+        ShellPower.deletePort(portMapper.selectByPrimaryKey(userid).getPid());
         int pid = ShellPower.addPort(newnum);
+        System.out.println("addPort");
         return Result.success(portMapper.updateByExample(new Port(ports.get(0).getUserid(), newnum, pid), portExample));
     }
 
@@ -91,6 +107,19 @@ public class PortController {
             }
         }
         return Result.fail(402, "当前时间无空闲端口");
+    }
+
+
+    @GetMapping("findOutPort")
+    @ApiOperation(value = "判断端口是否正被使用")
+    public Result findOutPort(@ApiParam(name = "num", value = "端口号", required = true, example = "50001") Integer num) {
+        List<Port> temp = portMapper.selectByExample(null);
+        for (Port port : temp) {
+            if (port.getNum().equals(num)) {
+                return Result.success(port.getUserid());
+            }
+        }
+        return Result.fail(402, "当前端口未被开辟");
     }
 
 }

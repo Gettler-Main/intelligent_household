@@ -78,12 +78,8 @@ namespace Server
             }
             catch
             {
-
             }
-
         }
-
-
         private void send(Socket socket, string msg)
         {
             //构造字节数组
@@ -96,9 +92,6 @@ namespace Server
             //发送数据
             socket.Send(byteNum, byteNum.Length, 0);
         }
-
-
-
         /// <summary>
         /// 检查连接
         /// </summary>
@@ -175,11 +168,8 @@ namespace Server
             }
             catch
             {
-
             }
-
         }
-
         /// <summary>
         /// 判断是否连接正常
         /// </summary>

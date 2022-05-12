@@ -21,10 +21,7 @@ namespace Client
         {
             InitializeComponent();
         }
-
-
         public static Socket scoketClient;
-
         private void Form1_Load(object sender, EventArgs e)
         {
             tabPage1.ImageIndex = 0;
@@ -46,7 +43,6 @@ namespace Client
             tabPage2.Controls.Add(kitchenLight);
             tabPage4.Controls.Add(airConditioner);
             uiTabControlMenu1.SizeMode = TabSizeMode.Normal;
-
             try
             {
 
@@ -66,7 +62,6 @@ namespace Client
                 MessageBox.Show(ex.ToString());
             }
         }
-
         public void Receive(object o)
         {
             Socket socketSend = o as Socket;
@@ -92,7 +87,6 @@ namespace Client
             {
                 MessageBox.Show(ex.ToString());
             }
-
         }
 
         public void send(Socket socket, string msg)
@@ -104,7 +98,6 @@ namespace Client
             //发送数据
             socket.Send(byteNum, byteNum.Length, 0);
         }
-
         private void tabPage3_Click(object sender, EventArgs e)
         {
 

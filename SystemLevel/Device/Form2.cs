@@ -27,19 +27,19 @@ namespace Device
         string[,] devices = new string[10, 5]//名称，端口，连接，开关，详情
         {
             {"LivingroomCurtain","", "0", "0"," "},
-            {"LivingroomLight","", "0", "0"," "},
+            {"LivingroomLight","", "0", "0"," "},//三种模式，0：弱 1：中 2：强
             {"LivingroomAirCondition","", "0", "0"," "},
-            {"KitchenLight","", "0", "0"," "},
+            {"KitchenLight","", "0", "0"," "},//三种模式，0：弱 1：中 2：强
             {"Cooker","", "0", "0"," "},
             {"BedroomCurtain","", "0", "0"," "},
             {"BedroomAirCondition","", "0", "0"," "},
-            {"BedroomLight","", "0", "0"," "},
+            {"BedroomLight","", "0", "0"," "},//三种模式，0：柔光 1：白光 2：黄光
             {"Strip","", "0", "0"," "},
             {"Calorifier","", "0", "0"," "},
 
         };
 
-        public int nowshowDevice=0;
+        public int nowshowDevice = 0;
         private void Form2_Load(object sender, EventArgs e)
         {
             Control.CheckForIllegalCrossThreadCalls = false; // 窗体控件不检查线程操作
@@ -122,7 +122,7 @@ namespace Device
             }
             return Cname;
         }
-        
+
         void openDevice(string deviceName)
         {
             int num = changeEtoN(deviceName);
@@ -136,7 +136,7 @@ namespace Device
             {
                 deviceName = "Light";
             }
-            else if(deviceName== "BedroomCurtain"||deviceName== "LivingroomCurtain")
+            else if (deviceName == "BedroomCurtain" || deviceName == "LivingroomCurtain")
             {
                 deviceName = "Curtain";
             }
@@ -184,8 +184,8 @@ namespace Device
                 //1、创建socket
                 Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 //2、绑定ip和端口
-                //String ip = "127.0.10.1";
-                String ip = "47.93.12.205";
+                String ip = "127.0.10.1";
+                //String ip = "47.93.12.205";
                 devices[nowshowDevice, 1] = textBox1.Text;
                 int port = Convert.ToInt32(devices[nowshowDevice, 1]);
                 socket.Connect(new IPEndPoint(IPAddress.Parse(ip), port));
@@ -195,6 +195,9 @@ namespace Device
                 Thread thread = new Thread(Receive); // 开启一个线程
                 thread.IsBackground = true;
                 thread.Start(socket);
+                Thread thread2 = new Thread(link); // 开启一个线程
+                thread2.IsBackground = true;
+                thread2.Start(socket);
                 sockets.Add(deviceName, socket);
                 socketNames.Add(socket, deviceName);
                 devices[nowshowDevice, 2] = "1";
@@ -203,6 +206,16 @@ namespace Device
             catch (Exception ex)
             {
                 MessageBox.Show("初始化失败" + ex.ToString());
+            }
+        }
+
+        void link(object o)
+        {
+            Socket socket = o as Socket;
+            while (true)
+            {
+                Thread.Sleep(3000);
+                send(socket, "link-" + socketNames[socket]);
             }
         }
 
@@ -229,7 +242,7 @@ namespace Device
                         {
                             if (deviceName == "LivingroomAirCondition" || deviceName == "BedroomAirCondition")
                             {
-                                int temp =26;
+                                int temp = 26;
                                 devices[changeEtoN(deviceName), 4] = temp.ToString() + "℃";
                             }
                             else if (deviceName == "LivingroomLight" || deviceName == "KitchenLight")
@@ -246,7 +259,7 @@ namespace Device
                             closeDevice(deviceName);
                         else if (str[0] == '2' && str.Length >= 2)
                         {
-                            if(deviceName== "LivingroomAirCondition"|| deviceName == "BedroomAirCondition")
+                            if (deviceName == "LivingroomAirCondition" || deviceName == "BedroomAirCondition")
                             {
                                 int temp = (str[1] - '0') * 10 + (str[2] - '0');
                                 devices[changeEtoN(deviceName), 4] = temp.ToString() + "℃";
@@ -257,15 +270,15 @@ namespace Device
                                 PictureBox pb = (PictureBox)Controls[deviceName + "_pictureBox"];
                                 switch (str[1])
                                 {
-                                    case '0':
+                                    case '1':
                                         devices[changeEtoN(deviceName), 4] = "弱光照";
                                         pb.Image = (Image)Properties.Resources.ResourceManager.GetObject("LightOn1", Properties.Resources.Culture);
                                         break;
-                                    case '1':
+                                    case '2':
                                         pb.Image = (Image)Properties.Resources.ResourceManager.GetObject("LightOn2", Properties.Resources.Culture);
                                         devices[changeEtoN(deviceName), 4] = "中光照";
                                         break;
-                                    case '2':
+                                    case '3':
                                         pb.Image = (Image)Properties.Resources.ResourceManager.GetObject("LightOn3", Properties.Resources.Culture);
                                         devices[changeEtoN(deviceName), 4] = "强光照";
                                         break;
@@ -276,16 +289,16 @@ namespace Device
                                 PictureBox pb = (PictureBox)Controls[deviceName + "_pictureBox"];
                                 switch (str[1])
                                 {
-                                    case '0':
-                                        pb.Image = (Image)Properties.Resources.ResourceManager.GetObject("LightSoft", Properties.Resources.Culture);
+                                    case '1':
+                                        pb.Image = (Image)Properties.Resources.ResourceManager.GetObject("BedroomLightSoft", Properties.Resources.Culture);
                                         devices[changeEtoN(deviceName), 4] = "柔和";
                                         break;
-                                    case '1':
-                                        pb.Image = (Image)Properties.Resources.ResourceManager.GetObject("LightWhite", Properties.Resources.Culture);
+                                    case '2':
+                                        pb.Image = (Image)Properties.Resources.ResourceManager.GetObject("BedroomLightWhite", Properties.Resources.Culture);
                                         devices[changeEtoN(deviceName), 4] = "白光";
                                         break;
-                                    case '2':
-                                        pb.Image = (Image)Properties.Resources.ResourceManager.GetObject( "LightYellow", Properties.Resources.Culture);
+                                    case '3':
+                                        pb.Image = (Image)Properties.Resources.ResourceManager.GetObject("BedroomLightYellow", Properties.Resources.Culture);
                                         devices[changeEtoN(deviceName), 4] = "黄光";
                                         break;
                                 }
@@ -300,9 +313,9 @@ namespace Device
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-
+                MessageBox.Show(ex.ToString());
             }
 
         }
@@ -311,11 +324,17 @@ namespace Device
         private void send(Socket socket, string msg)
         {
             //构造字节数组
-            Byte[] byteNum = new Byte[64];
+            Byte[] byteNum = new Byte[1024];
+            Byte[] byteNum2 = Encoding.UTF8.GetBytes(msg.ToCharArray());
             //将字符串转换为字节数组
-            byteNum = System.Text.Encoding.UTF8.GetBytes(msg.ToCharArray());
+            int idx = 0;
+            for (int i = 0; i < byteNum2.Length; i++)
+            {
+                byteNum[idx] = byteNum2[i];
+                idx++;
+            }
             //发送数据
-            socket.Send(byteNum, byteNum.Length, 0);
+            socket.Send(byteNum, 1024, 0);
         }
 
 
@@ -323,21 +342,27 @@ namespace Device
         public void showchange(int num)
         {
             nowshowDevice = num;
-            groupBox1.Text = changeEtoC(devices[num,0]);
+            groupBox1.Text = changeEtoC(devices[num, 0]);
             if (devices[num, 2] == "0")
                 uiLight1.State = UILightState.Off;
             else
             {
                 int a = Convert.ToInt32(devices[num, 1]);
-                uiLight1.OnColor = Color.FromArgb((a % 10)*20, 190, a % 255);
+                uiLight1.OnColor = Color.FromArgb((a % 10) * 20, 190, a % 255);
                 uiLight1.State = UILightState.Blink;
             }
             if (devices[num, 3] == "0")
+            {
                 uiSwitch1.Active = false;
+                uiSwitch1.DisabledColor = Color.Gray;
+            }
             else
+            {
                 uiSwitch1.Active = true;
+                uiSwitch1.DisabledColor = Color.FromArgb(80, 160, 255);
+            }
             label4.Text = devices[num, 4];
-            textBox1.Text= devices[num, 1];
+            textBox1.Text = devices[num, 1];
             if (textBox1.Text != "")
             {
                 textBox1.Enabled = false;

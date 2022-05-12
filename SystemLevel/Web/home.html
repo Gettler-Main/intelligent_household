@@ -44,10 +44,10 @@
                                         <div class="accordion-item">
                                             <h2 class="accordion-header" id="headingOne">
                                                 <button class="accordion-button collapsed" type="button"
-                                                    id="AirConditionState" data-bs-toggle="collapse"
+                                                    id="LivingroomAirConditionState" data-bs-toggle="collapse"
                                                     data-bs-target="#collapseOne" disabled aria-expanded="false"
                                                     aria-controls="collapseOne">
-                                                    空调
+                                                    客厅空调
                                                 </button>
                                             </h2>
                                             <div id="collapseOne" class="accordion-collapse collapse"
@@ -62,27 +62,27 @@
                                                                     width="20%" src="images/AirConditionOff.png" />
                                                             </div>
                                                             <div class="col ">
-                                                                <h3 id="IfAirConditionOn" style="text-align: center">
+                                                                <h3 id="IfLivingroomAirConditionOn" style="text-align: center">
                                                                     状态：关</h3>
                                                                 <h4 style="text-align: center">温度：<text
-                                                                        class="AirCondition temputer">26</text>℃</h4>
+                                                                        class="LivingroomAirCondition temputer">26</text>℃</h4>
                                                             </div>
                                                             <div class="col state">
                                                                 <div class="form-check form-switch  center-block" style="display:flex;
                               justify-content: center;
                               align-items: center;">
-                                                                    <input class="OP form-check-input AirCondition"
+                                                                    <input class="OP form-check-input LivingroomAirCondition"
                                                                         type="checkbox" id="flexSwitch"
                                                                         style="width: 50%; margin-bottom: 10%;" />
                                                                 </div>
                                                                 <div>
-                                                                    <button class="OP AirCondition up"
+                                                                    <button class="OP LivingroomAirCondition up"
                                                                         style="width: 25%;">
                                                                         <img class="img-rounded center-block"
                                                                             alt="140x140" width="100%"
                                                                             src="images/up_black.png" />
                                                                     </button>
-                                                                    <button class="OP AirCondition down"
+                                                                    <button class="OP LivingroomAirCondition down"
                                                                         style="width: 25%;">
                                                                         <img class="img-rounded center-block"
                                                                             alt="140x140" width="100%"
@@ -91,7 +91,6 @@
                                                                 <div class="btn-group-vertical  center-block" style="display:flex;
                               justify-content: center;padding-top: 20px;
                               align-items: center;width: 10%;">
-
                                                                 </div>
 
                                                                 <br>
@@ -104,10 +103,10 @@
                                         <div class="accordion-item">
                                             <h2 class="accordion-header" id="headingTwo">
                                                 <button class="accordion-button collapsed" type="button"
-                                                    id="BedroomLightState" data-bs-toggle="collapse" disabled
+                                                    id="LivingroomLightState" data-bs-toggle="collapse" disabled
                                                     data-bs-target="#collapseTwo" aria-expanded="false"
                                                     aria-controls="collapseTwo">
-                                                    卧室灯
+                                                    客厅灯
                                                 </button>
                                             </h2>
                                             <div id="collapseTwo" class="accordion-collapse collapse"
@@ -121,10 +120,309 @@
                                                                     width="20%" src="images/LightOff.png" />
                                                             </div>
                                                             <div class="col ">
+                                                                <h3 id="IfLivingroomLightOn" style="text-align: center">
+                                                                    状态：关</h3>
+                                                                <h4 style="text-align: center">等级：<text
+                                                                        class="LivingroomLight temputer">10</text>级</h4>
+                                                            </div>
+                                                            <div class="col state">
+                                                                <div class="form-check form-switch  center-block" style="display:flex;
+                              justify-content: center;
+                              align-items: center;">
+                                                                    <input class="OP form-check-input LivingroomLight"
+                                                                        type="checkbox" id="flexSwitch"
+                                                                        style="width: 50%; margin-bottom: 10%;" />
+                                                                </div>
+                                                                <div>
+                                                                    <button style="width: 25%;"
+                                                                        class="OP LivingroomLight up">
+                                                                        <img class="img-rounded center-block"
+                                                                            alt="140x140" width="100%"
+                                                                            src="images/up_black.png" />
+                                                                    </button>
+                                                                    <button style="width: 25%;"
+                                                                        class="OP LivingroomLight down">
+                                                                        <img class="img-rounded center-block"
+                                                                            alt="140x140" width="100%"
+                                                                            src="images/down_black.png" /></button>
+                                                                </div>
+                                                                <div class="btn-group-vertical  center-block" style="display:flex;
+                              justify-content: center;padding-top: 20px;
+                              align-items: center;width: 10%;">
+                                                                </div>
+                                                                <br>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="headingThree">
+                                                <button class="accordion-button collapsed" type="button"
+                                                    id="LivingroomCurtainState" data-bs-toggle="collapse" disabled
+                                                    data-bs-target="#collapseThree" aria-expanded="false"
+                                                    aria-controls="collapseThree">
+                                                    客厅窗帘
+                                                </button>
+                                            </h2>
+                                            <div id="collapseThree" class="accordion-collapse collapse"
+                                                aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                                <div class="accordion-body">
+                                                    <div class="widget rounded_rect hcenter vmiddle"
+                                                        style="background-color: rgb(245, 250, 254); border-style: none; border-color: unset; box-shadow: rgb(253, 254, 255) -5px -6px 6px 0px; border-radius: 5px; font-size: 14px; padding: 0px; text-align: center; line-height: 20px; font-weight: normal; font-style: normal;">
+                                                        <div class="accordion-body row">
+                                                            <div>
+                                                                <img class="img-rounded center-block" alt="140x140"
+                                                                    width="20%" src="images/CurtainOff.png" />
+                                                            </div>
+                                                            <div class="col ">
+                                                                <h3 id="IfLivingroomCurtainOn" style="text-align: center">
+                                                                    状态：关</h3>
+                                                            </div>
+                                                            <div class="col state">
+                                                                <div class="form-check form-switch  center-block" style="display:flex;
+                              justify-content: center;
+                              align-items: center;">
+                                                                    <input class="OP form-check-input LivingroomCurtain"
+                                                                        type="checkbox" id="flexSwitch"
+                                                                        style="width: 50%; margin-bottom: 10%;" />
+                                                                </div>                                
+                                                                <div class="btn-group-vertical  center-block" style="display:flex;
+                              justify-content: center;padding-top: 20px;
+                              align-items: center;width: 10%;">
+                                                                </div>
+                                                                <br>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="headingFour">
+                                                <button class="accordion-button collapsed" type="button"
+                                                    id="KitchenLightState" data-bs-toggle="collapse" disabled
+                                                    data-bs-target="#collapseFour" aria-expanded="false"
+                                                    aria-controls="collapseFour">
+                                                    厨房灯
+                                                </button>
+                                            </h2>
+                                            <div id="collapseFour" class="accordion-collapse collapse"
+                                                aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                                                <div class="accordion-body">
+                                                    <div class="widget rounded_rect hcenter vmiddle"
+                                                        style="background-color: rgb(245, 250, 254); border-style: none; border-color: unset; box-shadow: rgb(253, 254, 255) -5px -6px 6px 0px; border-radius: 5px; font-size: 14px; padding: 0px; text-align: center; line-height: 20px; font-weight: normal; font-style: normal;">
+                                                        <div class="accordion-body row">
+                                                            <div>
+                                                                <img class="img-rounded center-block" alt="140x140"
+                                                                    width="20%" src="images/LightOff.png" />
+                                                            </div>
+                                                            <div class="col ">
+                                                                <h3 id="IfKitchenLightOn" style="text-align: center">
+                                                                    状态：关</h3>
+                                                                <h4 style="text-align: center">亮度：<text
+                                                                        class="KitchenLight temputer">10</text>级</h4>
+                                                            </div>
+                                                            <div class="col state">
+                                                                <div class="form-check form-switch  center-block" style="display:flex;
+                              justify-content: center;
+                              align-items: center;">
+                                                                    <input class="OP form-check-input KitchenLight"
+                                                                        type="checkbox" id="flexSwitch"
+                                                                        style="width: 50%; margin-bottom: 10%;" />
+                                                                </div>
+                                                                <div>
+                                                                    <button style="width: 25%;"
+                                                                        class="OP KitchenLight up">
+                                                                        <img class="img-rounded center-block"
+                                                                            alt="140x140" width="100%"
+                                                                            src="images/up_black.png" />
+                                                                    </button>
+                                                                    <button style="width: 25%;"
+                                                                        class="OP KitchenLight down">
+                                                                        <img class="img-rounded center-block"
+                                                                            alt="140x140" width="100%"
+                                                                            src="images/down_black.png" /></button>
+                                                                </div>
+                                                                <div class="btn-group-vertical  center-block" style="display:flex;
+                              justify-content: center;padding-top: 20px;
+                              align-items: center;width: 10%;">
+                                                                </div>
+                                                                <br>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="headingFive">
+                                                <button class="accordion-button collapsed" type="button"
+                                                    id="CookerState" data-bs-toggle="collapse" disabled
+                                                    data-bs-target="#collapseFive" aria-expanded="false"
+                                                    aria-controls="collapseFive">
+                                                    电饭煲
+                                                </button>
+                                            </h2>
+                                            <div id="collapseFive" class="accordion-collapse collapse"
+                                                aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+                                                <div class="accordion-body">
+                                                    <div class="widget rounded_rect hcenter vmiddle"
+                                                        style="background-color: rgb(245, 250, 254); border-style: none; border-color: unset; box-shadow: rgb(253, 254, 255) -5px -6px 6px 0px; border-radius: 5px; font-size: 14px; padding: 0px; text-align: center; line-height: 20px; font-weight: normal; font-style: normal;">
+                                                        <div class="accordion-body row">
+                                                            <div>
+                                                                <img class="img-rounded center-block" alt="140x140"
+                                                                    width="20%" src="images/CookerOff.png" />
+                                                            </div>
+                                                            <div class="col ">
+                                                                <h3 id="IfCookerOn" style="text-align: center">
+                                                                    状态：关</h3>                                                                
+                                                            </div>
+                                                            <div class="col state">
+                                                                <div class="form-check form-switch  center-block" style="display:flex;
+                              justify-content: center;
+                              align-items: center;">
+                                                                    <input class="OP form-check-input Cooker"
+                                                                        type="checkbox" id="flexSwitch"
+                                                                        style="width: 50%; margin-bottom: 10%;" />
+                                                                </div>                                                                
+                                                                <div class="btn-group-vertical  center-block" style="display:flex;
+                              justify-content: center;padding-top: 20px;
+                              align-items: center;width: 10%;">
+                                                                </div>
+                                                                <br>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="headingSix">
+                                                <button class="accordion-button collapsed" type="button"
+                                                    id="BedroomCurtainState" data-bs-toggle="collapse" disabled
+                                                    data-bs-target="#collapseSix" aria-expanded="false"
+                                                    aria-controls="collapseSix">
+                                                    卧室窗帘
+                                                </button>
+                                            </h2>
+                                            <div id="collapseSix" class="accordion-collapse collapse"
+                                                aria-labelledby="headingSix" data-bs-parent="#accordionExample">
+                                                <div class="accordion-body">
+                                                    <div class="widget rounded_rect hcenter vmiddle"
+                                                        style="background-color: rgb(245, 250, 254); border-style: none; border-color: unset; box-shadow: rgb(253, 254, 255) -5px -6px 6px 0px; border-radius: 5px; font-size: 14px; padding: 0px; text-align: center; line-height: 20px; font-weight: normal; font-style: normal;">
+                                                        <div class="accordion-body row">
+                                                            <div>
+                                                                <img class="img-rounded center-block" alt="140x140"
+                                                                    width="20%" src="images/CurtainOff.png" />
+                                                            </div>
+                                                            <div class="col ">
+                                                                <h3 id="IfBedroomCurtainOn" style="text-align: center">
+                                                                    状态：关</h3>                                                                
+                                                            </div>
+                                                            <div class="col state">
+                                                                <div class="form-check form-switch  center-block" style="display:flex;
+                              justify-content: center;
+                              align-items: center;">
+                                                                    <input class="OP form-check-input BedroomCurtain"
+                                                                        type="checkbox" id="flexSwitch"
+                                                                        style="width: 50%; margin-bottom: 10%;" />
+                                                                </div>                                                               
+                                                                <div class="btn-group-vertical  center-block" style="display:flex;
+                              justify-content: center;padding-top: 20px;
+                              align-items: center;width: 10%;">
+                                                                </div>
+                                                                <br>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="headingSeven">
+                                                <button class="accordion-button collapsed" type="button"
+                                                    id="BedroomAirConditionState" data-bs-toggle="collapse"
+                                                    data-bs-target="#collapseSeven" disabled aria-expanded="false"
+                                                    aria-controls="collapseSeven">
+                                                    卧室空调
+                                                </button>
+                                            </h2>
+                                            <div id="collapseSeven" class="accordion-collapse collapse"
+                                                aria-labelledby="headingSeven" data-bs-parent="#accordionExample">
+                                                <div class="accordion-body">
+
+                                                    <div class="widget rounded_rect hcenter vmiddle"
+                                                        style="background-color: rgb(245, 250, 254); border-style: none; border-color: unset; box-shadow: rgb(253, 254, 255) -5px -6px 6px 0px; border-radius: 5px; font-size: 14px; padding: 0px; text-align: center; line-height: 20px; font-weight: normal; font-style: normal;">
+                                                        <div class="accordion-body row">
+                                                            <div>
+                                                                <img class="img-rounded center-block" alt="140x140"
+                                                                    width="20%" src="images/AirConditionOff.png" />
+                                                            </div>
+                                                            <div class="col ">
+                                                                <h3 id="IfBedroomAirConditionOn" style="text-align: center">
+                                                                    状态：关</h3>
+                                                                <h4 style="text-align: center">温度：<text
+                                                                        class="BedroomAirCondition temputer">26</text>℃</h4>
+                                                            </div>
+                                                            <div class="col state">
+                                                                <div class="form-check form-switch  center-block" style="display:flex;
+                              justify-content: center;
+                              align-items: center;">
+                                                                    <input class="OP form-check-input BedroomAirCondition"
+                                                                        type="checkbox" id="flexSwitch"
+                                                                        style="width: 50%; margin-bottom: 10%;" />
+                                                                </div>
+                                                                <div>
+                                                                    <button class="OP BedroomAirCondition up"
+                                                                        style="width: 25%;">
+                                                                        <img class="img-rounded center-block"
+                                                                            alt="140x140" width="100%"
+                                                                            src="images/up_black.png" />
+                                                                    </button>
+                                                                    <button class="OP BedroomAirCondition down"
+                                                                        style="width: 25%;">
+                                                                        <img class="img-rounded center-block"
+                                                                            alt="140x140" width="100%"
+                                                                            src="images/down_black.png" /></button>
+                                                                </div>
+                                                                <div class="btn-group-vertical  center-block" style="display:flex;
+                              justify-content: center;padding-top: 20px;
+                              align-items: center;width: 10%;">
+                                                                </div>
+
+                                                                <br>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="headingEight">
+                                                <button class="accordion-button collapsed" type="button"
+                                                    id="BedroomLightState" data-bs-toggle="collapse" disabled
+                                                    data-bs-target="#collapseEight" aria-expanded="false"
+                                                    aria-controls="collapseEight">
+                                                    卧室灯
+                                                </button>
+                                            </h2>
+                                            <div id="collapseEight" class="accordion-collapse collapse"
+                                                aria-labelledby="headingEight" data-bs-parent="#accordionExample">
+                                                <div class="accordion-body">
+                                                    <div class="widget rounded_rect hcenter vmiddle"
+                                                        style="background-color: rgb(245, 250, 254); border-style: none; border-color: unset; box-shadow: rgb(253, 254, 255) -5px -6px 6px 0px; border-radius: 5px; font-size: 14px; padding: 0px; text-align: center; line-height: 20px; font-weight: normal; font-style: normal;">
+                                                        <div class="accordion-body row">
+                                                            <div>
+                                                                <img class="img-rounded center-block" alt="140x140"
+                                                                    width="20%" src="images/LightOff.png" />
+                                                            </div>
+                                                            <div class="col ">
                                                                 <h3 id="IfBedroomLightOn" style="text-align: center">
                                                                     状态：关</h3>
                                                                 <h4 style="text-align: center">亮度：<text
-                                                                        class="BedroomLight temputer">50</text>%</h4>
+                                                                        class="BedroomLight temputer">10</text>级</h4>
                                                             </div>
                                                             <div class="col state">
                                                                 <div class="form-check form-switch  center-block" style="display:flex;
@@ -159,15 +457,15 @@
                                             </div>
                                         </div>
                                         <div class="accordion-item">
-                                            <h2 class="accordion-header" id="headingThree">
+                                            <h2 class="accordion-header" id="headingNine">
                                                 <button class="accordion-button collapsed" type="button" id="StripState"
-                                                    data-bs-toggle="collapse" data-bs-target="#collapseThree" disabled
-                                                    aria-expanded="false" aria-controls="collapseThree">
+                                                    data-bs-toggle="collapse" data-bs-target="#collapseNine" disabled
+                                                    aria-expanded="false" aria-controls="collapseNine">
                                                     插座
                                                 </button>
                                             </h2>
-                                            <div id="collapseThree" class="accordion-collapse collapse"
-                                                aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                            <div id="collapseNine" class="accordion-collapse collapse"
+                                                aria-labelledby="headingNine" data-bs-parent="#accordionExample">
                                                 <div class="accordion-body">
                                                     <div class="widget rounded_rect hcenter vmiddle"
                                                         style="background-color: rgb(245, 250, 254); border-style: none; border-color: unset; box-shadow: rgb(253, 254, 255) -5px -6px 6px 0px; border-radius: 5px; font-size: 14px; padding: 0px; text-align: center; line-height: 20px; font-weight: normal; font-style: normal;">
@@ -178,7 +476,6 @@
                                                             </div>
                                                             <div class="col ">
                                                                 <h3 id="IfStripOn" style="text-align: center">状态：关</h3>
-                                                                <h4 style="text-align: center">温度：26℃</h4>
                                                             </div>
                                                             <div class="col state">
                                                                 <div class="form-check form-switch  center-block" style="display:flex;
@@ -187,18 +484,7 @@
                                                                     <input class="OP Strip form-check-input"
                                                                         type="checkbox" id="flexSwitch"
                                                                         style="width: 50%; margin-bottom: 10%;" />
-                                                                </div>
-                                                                <div>
-                                                                    <button style="width: 25%;">
-                                                                        <img class="img-rounded center-block"
-                                                                            alt="140x140" width="100%"
-                                                                            src="images/up_black.png" />
-                                                                    </button>
-                                                                    <button style="width: 25%;">
-                                                                        <img class="img-rounded center-block"
-                                                                            alt="140x140" width="100%"
-                                                                            src="images/down_black.png" /></button>
-                                                                </div>
+                                                                </div>                                                                
                                                                 <div class="btn-group-vertical  center-block" style="display:flex;
                               justify-content: center;padding-top: 20px;
                               align-items: center;width: 10%;">
@@ -211,16 +497,16 @@
                                             </div>
                                         </div>
                                         <div class="accordion-item">
-                                            <h2 class="accordion-header" id="headingFour">
+                                            <h2 class="accordion-header" id="headingTen">
                                                 <button class="accordion-button collapsed" type="button"
                                                     id="CalorifierState" data-bs-toggle="collapse" disabled
-                                                    data-bs-target="#collapseFour" aria-expanded="false"
-                                                    aria-controls="collapseFour">
+                                                    data-bs-target="#collapseTen" aria-expanded="false"
+                                                    aria-controls="collapseTen">
                                                     热水器
                                                 </button>
                                             </h2>
-                                            <div id="collapseFour" class="accordion-collapse collapse"
-                                                aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                                            <div id="collapseTen" class="accordion-collapse collapse"
+                                                aria-labelledby="headingTen data-bs-parent="#accordionExample">
                                                 <div class="accordion-body">
                                                     <div class="widget rounded_rect hcenter vmiddle"
                                                         style="background-color: rgb(245, 250, 254); border-style: none; border-color: unset; box-shadow: rgb(253, 254, 255) -5px -6px 6px 0px; border-radius: 5px; font-size: 14px; padding: 0px; text-align: center; line-height: 20px; font-weight: normal; font-style: normal;">
@@ -233,7 +519,7 @@
                                                                 <h3 id="IfCalorifierOn" style="text-align: center">状态：关
                                                                 </h3>
                                                                 <h4 style="text-align: center">温度：<text
-                                                                        class="Calorifier temputer">35</text>℃</h4>
+                                                                        class="Calorifier temputer">26</text>℃</h4>
                                                             </div>
                                                             <div class="col state">
                                                                 <div class="form-check form-switch  center-block" style="display:flex;
@@ -267,15 +553,15 @@
                             <div id="logs" class=" pre-scrollable" style="height :600 px; width: 300px ;"></div>
                         </div>
                     </div>
-                    <div class="tab-pane fade " id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-                        <input type="text" name="newNum" class="col form-control" style="margin: 40px 0;
-                        border: 0;
-                        padding: 10px;
-                        border-bottom: 3px solid rgb(80, 80, 170);
-                        font: 900 20px ;
-                        text-align: center;
-                        width: 250px;text-align:center;vertical-align:middle;" placeholder="请输入端口号" />
-                        <button id="updatePort">确认修改端口</button>
+                    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" style="text-align: center;">
+                        <input type="text" name="newNum" class="col form-control e"
+                        style="width:50%;margin:0 auto;margin-top: 10px;"
+                        placeholder="请输入要修改的端口号" />
+                        <input type="text" name="newNum" class="col form-control e"
+                        style="width:50%;margin:0 auto;margin-top: 10px;"
+                        placeholder="请输入要修改的端口号" />
+                        <button id="updatePort" style="background-color: #e7e7e7; color: black;font-size: 18px;border-radius: 4px;
+                        margin-top: 10px;">确认</button>
                     </div>
                 </div>
             </div>
