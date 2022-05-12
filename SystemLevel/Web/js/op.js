@@ -31,29 +31,37 @@ $(function () {
         var data = event.data
         console.log(data)
         var str = data
-        var t = str.IndexOf(':') // 传输信息格式为 AirCondition:OP225
+        var t = str.indexOf(':') // 传输信息格式为 AirCondition:SY225
         if (t != -1) {
           var tarDevice = str.Substring(0, t)
-          if (str.Length >= t + 4 && str.Substring(t + 1, 2) == "SY") // OP标注是否对设备端操作
+          if (str.Length >= t + 4 && str.Substring(t + 1, 2) == "SY") // SY标注是否对客户端操作
           {
             if (str[t + 3] == '0') {
               $("#If" + tarDevice + "On").html("状态：关")
             } else if (str[t + 3] == '1') {
               $("#If" + tarDevice + "On").html("状态：开")
             }
-            else if (str[t + 3] == '2' && str.Length >= t + 6) // OP后为2表示调整温度
+            else if (str[t + 3] == '2' && str.Length >= t + 6) // SY后为2表示调整温度
             {
               var tem = str.substring(t + 4)
               document.getElementsByClassName(
                 tarDevice + " temputer"
               )[0].innerText = tem
             }
+          } else if (str.Substring(t + 1, 5) == "Close") {
+            alert(str.substring(0, t) + "连接断开，请在设备端重新连接")
+            myDevice = str.substring(0, t)
+            if (document.getElementById(myDevice + "State") !== null) {
+              document.getElementById(myDevice + "State").classList.add("collapsed")
+              document.getElementById(document.getElementById(myDevice + "State").getAttribute("aria-controls")).classList.remove("show")
+              document.getElementById(myDevice + "State").disabled = true
+            }
           }
         } else if (str.contains("power")) {
           myDevice = str.substring(5)
-          if (document.getElementById(myDevice + "State") !== null){
-            document.getElementById(myDevice + "State").classList.remove("collapsed");
-            document.getElementById(document.getElementById(myDevice + "State").getAttribute("aria-controls")).classList.add("show");
+          if (document.getElementById(myDevice + "State") !== null) {
+            document.getElementById(myDevice + "State").classList.remove("collapsed")
+            document.getElementById(document.getElementById(myDevice + "State").getAttribute("aria-controls")).classList.add("show")
             document.getElementById(myDevice + "State").disabled = false
           }
         }
@@ -143,5 +151,34 @@ $(function () {
       // console.log(ev.data)
       document.getElementById("logs").innerText = ev.data
     }
+  })
+
+  $("#updatePort").click(function () {
+    $.ajax({
+      url: "http://47.93.12.205:8080/controlcenter/Port/findOutPort",
+      type: "get",
+      dataType: "json",
+      data: "&num=" + $("input[name='newNum']").val(),
+      success: function (result) {
+        console.log(result)
+        if (result.success) {
+          $.ajax({
+            url: "http://47.93.12.205:8080/controlcenter/Port/updateport",
+            type: "get",
+            dataType: "json",
+            data: "userid=" + userid[1] + "$newnum=" + $("input[name='newNum']").val() + "&num=" + port,
+            success: function (result) {
+              console.log(result)
+              port = $("input[name='newNum']").val()
+              alert("修改成功")
+            },
+            error: function (result) { alert("修改失败") }
+          })
+        } else {
+          alert(result.msg)
+        }
+      },
+      error: function (result) { alert("修改失败") }
+    })
   })
 })
