@@ -338,7 +338,16 @@ namespace Device
                 uiSwitch1.Active = true;
             label4.Text = devices[num, 4];
             textBox1.Text= devices[num, 1];
-
+            if (textBox1.Text != "")
+            {
+                textBox1.Enabled = false;
+                button1.Enabled = false;
+            }
+            else
+            {
+                textBox1.Enabled = true;
+                button1.Enabled = true;
+            }
 
             string name = devices[num, 0];
             if (name == "LivingroomAirCondition" || name == "BedroomAirCondition")
