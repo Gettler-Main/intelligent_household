@@ -160,6 +160,8 @@ namespace ServerConsole
                     if (new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds() - item.Value >= 10)
                     {
                         Console.WriteLine(item.Key + "连接断开");
+                        logs += item.Key + "连接断开\n";
+                        ti.Remove(item.Key);
                         if (sockets.ContainsKey("Client"))
                             PackeSend(sockets["Client"], item.Key + ":Close");
                     }
@@ -181,6 +183,31 @@ namespace ServerConsole
 
             //}
         }
+
+        /// <summary>
+        /// 移除尾部空字节
+        /// </summary>
+        /// <param name="oldByte"></param>
+        /// <returns></returns>
+        public static byte[] TrimNullByte(byte[] oldByte)
+        {
+            var list = new List<byte>();
+            list.AddRange(oldByte);
+            for (var i = list.Count - 1; i >= 0; i--)
+            {
+                if (list[i] == 0x00)
+                    list.RemoveAt(i);
+                else
+                    break;
+            }
+            var lastbyte = new byte[list.Count];
+            for (var i = 0; i < list.Count; i++)
+            {
+                lastbyte[i] = list[i];
+            }
+            return lastbyte;
+        }
+
         /// <summary>
         /// 接受客户端发送过来的消息
         /// </summary>
@@ -192,7 +219,8 @@ namespace ServerConsole
 
             byte[] buffer = new byte[1024];
             int length = socketSend.Receive(buffer);
-            string str = Encoding.UTF8.GetString(buffer, 0, length);
+            byte[] msg = TrimNullByte(buffer);
+            string str = Encoding.UTF8.GetString(msg, 0, msg.Length);
             //Console.WriteLine(str);
             if (str.Contains("WebSocket"))
             {
@@ -284,7 +312,8 @@ namespace ServerConsole
                         if (length != 0)
                         {
 
-                            str = Encoding.UTF8.GetString(buffer, 0, length);
+                            msg = TrimNullByte(buffer);
+                            str = Encoding.UTF8.GetString(msg, 0, msg.Length);
                             Console.WriteLine(str);
                             if (str.Substring(0, 5) == "link-")
                             {

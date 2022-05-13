@@ -184,24 +184,24 @@ namespace Device
                 //1、创建socket
                 Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 //2、绑定ip和端口
-                String ip = "127.0.10.1";
-                //String ip = "47.93.12.205";
+                //String ip = "127.0.10.1";
+                String ip = "47.93.12.205";
                 devices[nowshowDevice, 1] = textBox1.Text;
                 int port = Convert.ToInt32(devices[nowshowDevice, 1]);
                 socket.Connect(new IPEndPoint(IPAddress.Parse(ip), port));
                 Byte[] byteNum = new Byte[64];
                 byteNum = System.Text.Encoding.UTF8.GetBytes(("Name-" + deviceName).ToCharArray());
                 socket.Send(byteNum, byteNum.Length, 0); // 发送身份信息
+                sockets.Add(deviceName, socket);
+                socketNames.Add(socket, deviceName);
+                devices[nowshowDevice, 2] = "1";
+                showchange(nowshowDevice);
                 Thread thread = new Thread(Receive); // 开启一个线程
                 thread.IsBackground = true;
                 thread.Start(socket);
                 Thread thread2 = new Thread(link); // 开启一个线程
                 thread2.IsBackground = true;
                 thread2.Start(socket);
-                sockets.Add(deviceName, socket);
-                socketNames.Add(socket, deviceName);
-                devices[nowshowDevice, 2] = "1";
-                showchange(nowshowDevice);
             }
             catch (Exception ex)
             {
